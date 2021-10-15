@@ -62,7 +62,7 @@ var profile= new Schema({
 var User = new Schema({
     firstname: {
       type: String,
-      required:true,  
+      defalut:'',  
       },
     lastname: {
       type: String,
@@ -70,7 +70,7 @@ var User = new Schema({
       },
     email:   {
       type: String,
-      required:true,
+      defalut:'',
       unique:true
     },
     profile:{
