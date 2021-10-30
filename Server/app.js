@@ -9,7 +9,7 @@ var config = require('./config');
 const mongoose = require('mongoose');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
-
+var cors =require('cors')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter=require('./routes/uploadRouter');
@@ -30,6 +30,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -50,7 +51,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/users/profileImage',uploadRouter);
+// app.use('/users/profileImage',uploadRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

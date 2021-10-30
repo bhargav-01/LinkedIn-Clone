@@ -1,82 +1,87 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
+var passportLocalMongoose = require("passport-local-mongoose");
 
-var profile= new Schema({
 
+var User = new Schema({
+  firstname: {
+    type: String,
+    defalut: "",
+  },
+  lastname: {
+    type: String,
+    default: "",
+  },
+  country:{
+    type:String,
+    default:"",
+  },
+  region:{
+    type:String,
+    default:"",
+  },
   Education: [
     {
-      Name_of_School:{
-        type:String,
-        required:true 
+      Name_of_School: {
+        type: String,
+        // required: true,
       },
-      Degree:{
-        type:String,
-        default:""
+      Specialization:{
+        type: String,
+        default: "",
       },
-      Start_Year:{
-        type:String,
-        default:""
+      Degree: {
+        type: String,
+        default: "",
       },
-      Ending_Year:{
-        type:String,
-        default:""
-      }
-
-    }
+      Start_Year: {
+        type: String,
+        default: "",
+      },
+      End_Year: {
+        type: String,
+        default: "",
+      },
+    },   
   ],
   Jobs: [
     {
-      Company_Name:{
+      Employment_type:{
         type: String,
-        required:true
+        // required: true,
       },
-      Position:{
-        type:String,
-        required:true
+      Company_Name: {
+        type: String,
+        // required: true,
       },
-      Description:{
-        type:String,
-        default:null
+      Position: {
+        type: String,
+        // required: true,
       },
-      Start_Year:{
-        type:String,
-        default:""
+      Description: {
+        type: String,
+        default: null,
       },
-      Ending_Year:{
-        type:String,
-        default:"Present"
-      }
-    }
-  ],
-  Achievements:[
-    {
-      Certificate:{
-        type:String,
-        default:"" 
-      }
-    }
-  ]
-});
-
-var User = new Schema({
-    firstname: {
-      type: String,
-      defalut:'',  
+      Start_Year: {
+        type: String,
+        default: "",
       },
-    lastname: {
-      type: String,
-      default:""
+      Ending_Year: {
+        type: String,
+        default: "Present",
       },
-    email:   {
-      type: String,
-      defalut:'',
-      unique:true
     },
-    profile:{
-      type:profile
-    }
+  ],
+  Achievements: [
+    {
+      Certificate: {
+        type: String,
+        default: "",
+      },
+    },
+  ],
 });
 
-User.plugin(passportLocalMongoose);
-module.exports = mongoose.model('User', User);
+// User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, { usernameField: "email" });
+module.exports = mongoose.model("User", User);
