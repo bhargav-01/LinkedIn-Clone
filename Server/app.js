@@ -13,6 +13,7 @@ var FileStore = require('session-file-store')(session);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter=require('./routes/uploadRouter');
+var postRouter=require('./routes/posts');
 const DB_USER = 'Nirav';
 const PASSWORD = encodeURIComponent('Nirav@2001'); 
 const uri =  config.mongoUrl;
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/users/profileImage',uploadRouter);
+app.use('/posts',postRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

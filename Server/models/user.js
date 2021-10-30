@@ -70,7 +70,7 @@ var User = new Schema({
       },
     email:   {
       type: String,
-      defalut:'',
+      default:'',
       unique:true
     },
     profile:{
