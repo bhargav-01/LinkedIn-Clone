@@ -78,6 +78,7 @@ var User = new Schema({
         type: String,
         default: "",
       },
+    }
   ]
 });
 
