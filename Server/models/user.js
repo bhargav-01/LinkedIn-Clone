@@ -77,8 +77,9 @@ var User = new Schema({
       Certificate: {
         type: String,
         default: "",
-      },
-  ]
+      }
+    }
+  ],
 });
 
 // User.plugin(passportLocalMongoose);
