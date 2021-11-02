@@ -5,13 +5,16 @@ import SignUp from './Login/SignupComponent'
 import LocationDetails from './Login/LocationComponent'
 import JobDetails from './Login/JobDetailsComponent'
 import StudyDetails from './Login/StudentComponent'
+import Profile from './Profile/ProfileComponent'
 function Main() {
     return (
             <div>
                 <Switch>
                     <Route path='/SignUp' component={SignUp}/>
+                    <Route path='/Login' component={Login}/>
                     <Route path='/Ldetails' component={LocationDetails}/>
                     <Route path='/Jdetails' component={JobDetails}/>
+                    <Route path='/try' component={Profile}/>
                     <Route path='/Sdetails' component={StudyDetails}/>
                     <Redirect to="/SignUp" />
                 </Switch>

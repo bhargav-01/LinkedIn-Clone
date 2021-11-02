@@ -8,11 +8,23 @@ var User = new Schema({
     type: String,
     defalut: "",
   },
+  profile_image:{
+    type: String,
+    default: "",
+  },
+  background_image:{
+    type: String,
+    default: "",
+  },
   lastname: {
     type: String,
     default: "",
   },
   country:{
+    type:String,
+    default:"",
+  },
+  image:{
     type:String,
     default:"",
   },

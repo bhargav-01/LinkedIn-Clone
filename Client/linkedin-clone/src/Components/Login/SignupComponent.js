@@ -86,6 +86,10 @@ function SignUp(props) {
         event.preventDefault();
     };
 
+    const handleSignIn=()=>{
+        history.push('/Login');
+    };
+
     const handleChange = (event) => {
         event.preventDefault();
         axios.get("http://localhost:3001/users/signup/"+email)
@@ -144,7 +148,7 @@ function SignUp(props) {
                         className="form"
                         onSubmit={(event)=>handleChange(event)}>
                         <div>
-                            <h1>Log In</h1>
+                            <h1>Sign Up</h1>
                             <p>Stay updated on your professional world</p>           
                         </div>
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -211,10 +215,10 @@ function SignUp(props) {
                                 component="button"
                                 variant="body2"
                                 onClick={() => {
-                                    props.changeState()
+                                    handleSignIn()
                                 }}
                                 >
-                                {' Sign up'}
+                                {' Sign In'}
                             </Link>
                         </div>
                     </form>

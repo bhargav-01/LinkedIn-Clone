@@ -73,13 +73,17 @@ function Login(props) {
         });
     };
 
+    const handleSignUp=()=>{
+        history.push('/Signup');
+    };
     
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
 
     const handleSubmit = (event) => {
-        axios.put('http://localhost:3001/users/login',{
+        event.preventDefault();
+        axios.post('http://localhost:3001/users/login',{
             email:email,
             password:password,
         })
@@ -102,7 +106,7 @@ function Login(props) {
                 </div>
                 <div className="login-container">
                     <form
-                        onSubmit={handleSubmit()}
+                        onSubmit={(e)=>handleSubmit(e)}
                         className="form">
                         <div>
                             <h1>Log In</h1>
@@ -168,7 +172,7 @@ function Login(props) {
                                 component="button"
                                 variant="body2"
                                 onClick={() => {
-                                    props.changeState()
+                                    handleSignUp()
                                 }}
                                 >
                                 {' Sign up'}

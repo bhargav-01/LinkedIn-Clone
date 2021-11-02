@@ -11,6 +11,41 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+
+
+/////////////////////////////////////////////----Profile----\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+router.post('/profile',authenticate.verifyUser,(req,res,next)=>{
+  
+  User.findByIdAndUpdate(req.user._id,req.body,function (err, docs){
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+});
+
+router.get('/Profile',authenticate.verifyUser,(req,res,next)=>{
+  // console.log(req);
+  User.findById(req.user._id)
+  .then(data=>{
+      res.statusCode=200,
+      res.setHeader('Content-Type', 'application/json');
+      res.json(data);
+  })
+  .catch(err=>next(err));
+})
+
+
+
+
+
+
+
+/////////////////////////////////////////////----SignUp-Login----\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 router.get('/signup/:email',(req,res,next)=>{
     // console.log(req);
     User.find({email:req.params.email})
@@ -76,6 +111,7 @@ router.post('/signup/Ed',authenticate.verifyUser,(req,res,next)=>{
   })
 })
 
+
 router.post('/signup', (req, res, next) => {
   User.register(new User({email: req.body.email}), 
     req.body.password, (err, user) => {
@@ -110,7 +146,8 @@ router.post('/signup', (req, res, next) => {
       });
     }
   });
-});
+})
+
 
 
 router.post('/login', passport.authenticate('local'), (req, res) => {

@@ -1,0 +1,57 @@
+.banner_img{
+    object-fit: fill;
+    width: 650px;
+    height: 160px;
+}
+
+.image_conatiner{
+    position: relative;
+    width: 650px;
+    height: 250px;
+}
+
+.camera{
+    width: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    height: 30px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.icon{
+    background: white;
+    font-size: 20px;
+}
+
+.modal-close{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+}
+@media (max-width: 768px) {
+    .image_conatiner{
+        width: -webkit-fill-available;
+    }
+    .banner_img{
+        width: -webkit-fill-available;
+    }
+}
+
+.profile{
+    top: 90px;
+    left: 20px;
+    position: absolute;
+    z-index: 20;
+}
+
+.profile_img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
