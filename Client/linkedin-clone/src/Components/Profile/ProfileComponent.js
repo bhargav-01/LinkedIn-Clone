@@ -102,13 +102,13 @@ function Profile(props) {
 
     return (
         <div>
-            <div className="card">
+            <div className="card profile_card">
                 <div className="image_conatiner">
                     <div className="banner">
-                        <img  className="banner_img" src={profile==null?'assets/images/4820571.jpg':profile.background_image} alt="bhargav"></img>
+                        <img  className="banner_img" src={(profile==null||profile.background_image==="")?'assets/images/4820571.jpg':profile.background_image} alt="bhargav"></img>
                     </div>
                     <div className="camera">
-                        <Button onClick={handleClickOpen}>
+                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
                             <BsCameraFill className="icon"/>
                         </Button>
                         <BootstrapDialog
@@ -138,12 +138,15 @@ function Profile(props) {
                 </div>
 
                 <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                    <h3 className="card-title">{profile==null?"":profile.firstname+" "+profile.lastname}</h3>
+                    <div className="card-text">{profile==null?"":profile.headline}</div>
+                    <div style={{"color": "#8b8f8e","font-size": "smaller"}}>{profile==null?"":profile.region+", "+profile.country}</div>
+                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
                 </div>
             </div>
         </div>
+
+
     )
 }
 
