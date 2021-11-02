@@ -24,3 +24,5 @@ function PostWithID(props)
         </Card>
     );
 };
+
+export default PostWithID;
