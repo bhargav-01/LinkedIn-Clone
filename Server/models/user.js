@@ -20,11 +20,15 @@ var User = new Schema({
     type: String,
     default: "",
   },
+  headline:{
+    type: String,
+    default: "",
+  },
   country:{
     type:String,
     default:"",
   },
-  image:{
+  about:{
     type:String,
     default:"",
   },

@@ -50,6 +50,15 @@
     }
 }
 
+
+.name-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: space-around;
+}
+
 .profile{
     top: 90px;
     left: 20px;
@@ -57,10 +66,79 @@
     z-index: 20;
 }
 
+/* //////////////////////////////////////---Profile Image--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 .profile_img{
     width: 150px;
     box-shadow: -2px 4px 20px 0px #c7c7c7;
     border: 3px solid white;
     height: 150px;
     border-radius: 50%;
+}
+
+.ImageEditor-container
+{
+    width: 500px;
+}
+.imageEditor{
+    position: relative;
+    height: 355px;
+}
+.crop-container {
+    height: 300px;
+}
+  
+
+.reactEasyCrop_Container{
+    height: 300px;
+}
+.controls {
+    width: 90%;
+    margin:15px;
+    display: flex;
+    align-items: center;
+}
+
+.slider {
+padding: 22px 0px;
+}
+
+.slider-container
+{
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .imageEditor{
+        width: 300px;
+        height: 450px;
+    }
+    .ImageEditor-container
+    {
+        width: 300px;
+    }
+    .slider-container
+    {
+        display: block;
+    }
+}
+
+/* \\//////////////////////////////////////--For name modal--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+.name-modal{
+    width: 600px;
+}
+
+@media (max-width: 768px) {
+    .name-modal{
+        width: 300px;
+    }
+}
+
+/* //////////////////////////////////////////----About modal--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+.about-modal{
+    width: 600px;
+}
+@media (max-width: 768px) {
+    .about-modal{
+        width: 300px;
+    }
 }
