@@ -58,6 +58,18 @@ var User = new Schema({
         type: String,
         default: "",
       },
+      activity:{
+        type: String,
+        default: "",
+      },
+      grade: {
+        type: String,
+        default: "",
+      },
+      description: {
+        type: String,
+        default: "",
+      },
     },   
   ],
   Jobs: [
@@ -88,9 +100,25 @@ var User = new Schema({
       },
     },
   ],
-  Achievements: [
+  Certification: [
     {
-      Certificate: {
+      name: {
+        type: String,
+        default: "",
+      },
+      organization:{
+        type: String,
+        default: "",
+      },
+      issueDate:{
+        type: String,
+        default: "",
+      },
+      cId:{
+        type: String,
+        default: "",
+      },
+      cURL:{
         type: String,
         default: "",
       }

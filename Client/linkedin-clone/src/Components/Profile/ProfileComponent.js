@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import PropTypes from 'prop-types';
 import styled from '@material-ui/core/styles/styled'
-import {DialogTitle,Dialog,DialogContent,Button,DialogActions} from '@material-ui/core'
+import {DialogTitle,Dialog,DialogContent,Button,DialogActions,DialogContentText} from '@material-ui/core'
 import {BsCameraFill} from 'react-icons/bs'
 import ImageEditor from './ImageEditor'
 import './profile.css'
@@ -10,7 +10,10 @@ import { initializeApp } from "firebase/app";
 import firebaseConfig  from '../../firebaseIni'
 import { getStorage,ref,uploadBytes,getDownloadURL } from "firebase/storage";
 import {MdModeEditOutline} from 'react-icons/md'
-
+import {BsPlusLg} from 'react-icons/bs'
+import EducationCard from './modals/EducationCard'
+import CertificationCard from './modals/CertificationCard'
+import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 const axios=require('axios');
 
 const Input = styled('input')({
@@ -96,6 +99,16 @@ function Profile(props) {
     const handleCloseImage = () => {
         setOpenImage(false);
     };
+
+    const descriptionElementRef = React.useRef(null);
+    React.useEffect(() => {
+      if (open) {
+        const { current: descriptionElement } = descriptionElementRef;
+        if (descriptionElement !== null) {
+          descriptionElement.focus();
+        }
+      }
+    }, [open]);
    
 
     useEffect(() => {
@@ -154,6 +167,65 @@ function Profile(props) {
         })
         .then(response=>{
             setOpenAbout(false);
+            console.log(response.data);
+        });
+    }
+
+    const submitEducation=(school,degree,fieldofStudy,startYear,endYear,grade,activity,description)=>{
+
+        instance.post('/profile/education',{
+            Name_of_School:school,
+            Degree:degree,
+            Specialization:fieldofStudy,
+            Start_Year:startYear,
+            End_Year:endYear,
+            activity:activity,
+            grade:grade,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+    const submitCertification=(name,organization,issueDate,cId,cURL)=>{
+        instance.post('/profile/certification',{
+            name:name,
+            organization:organization,
+            issueDate:issueDate,
+            cId:cId,
+            cURL:cURL,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const editCertification=(id,name,organization,issueDate,cId,cURL)=>{
+        instance.put('/profile/certification/'+id,{
+            name:name,
+            organization:organization,
+            issueDate:issueDate,
+            cId:cId,
+            cURL:cURL,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const editEducation=(id,school,degree,fieldofStudy,startYear,endYear,grade,activity,description)=>{
+
+        instance.put('/profile/education/'+id,{
+            Name_of_School:school,
+            Degree:degree,
+            Specialization:fieldofStudy,
+            Start_Year:startYear,
+            End_Year:endYear,
+            activity:activity,
+            grade:grade,
+            description:description,
+        })
+        .then(response=>{
             console.log(response.data);
         });
     }
@@ -293,12 +365,12 @@ function Profile(props) {
                             <DialogContent dividers className="about-modal">
                                 <div className="form-floating">
                                     <textarea className="form-control" 
-                                        placeholder="Leave a comment here" 
+                                        placeholder="About" 
                                         id="floatingTextarea2" 
                                         value={about}
                                         style={{height:"400px"}}
                                         onChange={(e)=>setAbout(e.target.value)}/>
-                                    <label for="floatingTextarea2">Comments</label>
+                                    <label for="floatingTextarea2">About</label>
                                 </div>
                             </DialogContent>
                             <DialogActions>
@@ -311,6 +383,9 @@ function Profile(props) {
                     {profile==null?"":profile.about}
                 </div>
             </div>
+            
+            <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation}/>
+            <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile}/>
         </div>
 
 

@@ -29,7 +29,6 @@ router.post('/profile',authenticate.verifyUser,(req,res,next)=>{
 });
 
 router.get('/Profile',authenticate.verifyUser,(req,res,next)=>{
-  // console.log(req);
   User.findById(req.user._id)
   .then(data=>{
       res.statusCode=200,
@@ -39,9 +38,69 @@ router.get('/Profile',authenticate.verifyUser,(req,res,next)=>{
   .catch(err=>next(err));
 })
 
+/////////////////////////////////////////////--Profile-Education--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
+router.post('/profile/education',authenticate.verifyUser,(req,res,next)=>{
+  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Education.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Updated Succesfully"});
+      })            
+  })
+});
 
+router.put('/profile/education/:id',authenticate.verifyUser,(req,res,next)=>{
+  
+  User.update({'_id':req.user._id},{$set:{"Education.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+      if (err){
+          console.log(err)
+      }
+      else{
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({docs});
+      }
+  })
+});
+
+/////////////////////////////////////////////--Profile-certification--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+router.post('/profile/certification',authenticate.verifyUser,(req,res,next)=>{
+  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Certification.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Updated Succesfully"});
+      })            
+  })
+});
+
+router.put('/profile/certification/:id',authenticate.verifyUser,(req,res,next)=>{
+  
+  User.update({'_id':req.user._id},{$set:{"Certification.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+      if (err){
+          console.log(err)
+      }
+      else{
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({docs});
+      }
+  })
+});
 
 
 
