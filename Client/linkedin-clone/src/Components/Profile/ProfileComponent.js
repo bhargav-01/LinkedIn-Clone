@@ -187,6 +187,7 @@ function Profile(props) {
             console.log(response.data);
         });
     }
+    
     const submitCertification=(name,organization,issueDate,cId,cURL)=>{
         instance.post('/profile/certification',{
             name:name,
