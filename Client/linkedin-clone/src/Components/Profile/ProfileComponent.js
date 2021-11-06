@@ -13,6 +13,7 @@ import {MdModeEditOutline} from 'react-icons/md'
 import {BsPlusLg} from 'react-icons/bs'
 import EducationCard from './modals/EducationCard'
 import CertificationCard from './modals/CertificationCard'
+import ExperienceCard from './modals/ExperienceCard'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 const axios=require('axios');
 
@@ -187,7 +188,7 @@ function Profile(props) {
             console.log(response.data);
         });
     }
-    
+
     const submitCertification=(name,organization,issueDate,cId,cURL)=>{
         instance.post('/profile/certification',{
             name:name,
@@ -195,6 +196,38 @@ function Profile(props) {
             issueDate:issueDate,
             cId:cId,
             cURL:cURL,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const submitExperience=(title,type,name,location,startDate,endDate,description)=>{
+        instance.post('/profile/experience',{
+            title:title,
+            employment_type:type,
+            companyname:name,
+            location:location,
+            name:name,
+            startDate:startDate,
+            endDate:endDate,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const editExperience=(id,title,type,name,location,startDate,endDate,description)=>{
+        instance.put('/profile/experience/'+id,{
+            title:title,
+            employment_type:type,
+            companyname:name,
+            location:location,
+            name:name,
+            startDate:startDate,
+            endDate:endDate,
+            description:description,
         })
         .then(response=>{
             console.log(response.data);
@@ -387,6 +420,7 @@ function Profile(props) {
             
             <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation}/>
             <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile}/>
+            <ExperienceCard  submitExperience={submitExperience} editExperience={editExperience} profile={profile}/>
         </div>
 
 

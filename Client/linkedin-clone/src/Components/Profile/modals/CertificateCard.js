@@ -179,7 +179,6 @@ function SchoolCard(props) {
                             </Button>
                             </ModalFooter>
                     </Modal>
-                   
                 </div>
                 <div>{props.certificate.organization}</div>
                 <div>{new Date(props.certificate.issueDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>

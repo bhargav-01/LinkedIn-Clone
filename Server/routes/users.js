@@ -103,6 +103,36 @@ router.put('/profile/certification/:id',authenticate.verifyUser,(req,res,next)=>
 });
 
 
+/////////////////////////////////////////////---Profile-Experience--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+router.post('/profile/experience',authenticate.verifyUser,(req,res,next)=>{  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Experience.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Updated Succesfully"});
+      })            
+  })
+});
+
+router.put('/profile/experience/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.update({'_id':req.user._id},{$set:{"Experience.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+
 
 /////////////////////////////////////////////----SignUp-Login----\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 router.get('/signup/:email',(req,res,next)=>{

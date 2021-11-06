@@ -72,32 +72,36 @@ var User = new Schema({
       },
     },   
   ],
-  Jobs: [
+  Experience: [
     {
-      Employment_type:{
+      employment_type:{
         type: String,
         // required: true,
       },
-      Company_Name: {
+      companyname: {
         type: String,
         // required: true,
       },
-      Position: {
-        type: String,
-        // required: true,
-      },
-      Description: {
-        type: String,
-        default: null,
-      },
-      Start_Year: {
+      location:{
         type: String,
         default: "",
       },
-      Ending_Year: {
+      title: {
+        type: String,
+        default: "",
+      },
+      startDate: {
+        type: String,
+        default: "",
+      },
+      endDate: {
         type: String,
         default: "Present",
       },
+      description:{
+        type: String,
+        default: "",
+      }
     },
   ],
   Certification: [
