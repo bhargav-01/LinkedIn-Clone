@@ -242,7 +242,7 @@ function ExperienceCard(props) {
                 {props.profile==null?null:
                     props.profile.Experience.map((experience)=>{
                         return(
-                            <JobCard experience={experience} editExperience={props.editExperience}/>
+                            <JobCard experience={experience} editExperience={props.editExperience} deleteExperience={props.deleteExperience}/>
                         )
                     })
                 }

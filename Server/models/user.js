@@ -76,11 +76,11 @@ var User = new Schema({
     {
       employment_type:{
         type: String,
-        // required: true,
+        required: true,
       },
       companyname: {
         type: String,
-        // required: true,
+        required: true,
       },
       location:{
         type: String,
@@ -128,6 +128,55 @@ var User = new Schema({
       }
     }
   ],
+  Courses:[
+    {
+      course:{
+        type: String,
+        default: "",
+      },
+      courseId:{
+        type: String,
+        default: "",
+      }
+    }
+  ],
+  Languages:[
+    {
+      language:{
+        type: String,
+        default: "",
+      },
+      proficiency:{
+        type: String,
+        default: "",
+      }
+    }
+  ],
+  Projects:[
+    {
+      project:{
+        type: String,
+        default: "",
+      },
+      startDate:{
+        type: String,
+        default: "",
+      },
+      endDate:{
+        type: String,
+        default: "Present",
+      },
+      projectURL:{
+        type: String,
+        default: "Present",
+      },
+      description:{
+        type: String,
+        default: "Present",
+      },
+    }
+  ],
+
 });
 
 // User.plugin(passportLocalMongoose);

@@ -67,10 +67,18 @@ function ExperienceCard(props) {
 
     const handleSubmit=(e)=>{
         e.preventDefault();
+        alert("dsa")
         if(present==="true")
             props.editExperience(id,title,type,name,location,startDate,"Present",description);
         else
             props.editExperience(id,title,type,name,location,startDate,endDate,description);
+        setOpen(false)
+    }
+
+    const handleDelete=(e)=>{
+        // alert("sss");
+        e.preventDefault();
+        props.deleteExperience(id);
         setOpen(false)
     }
     return (
@@ -89,7 +97,7 @@ function ExperienceCard(props) {
                         toggle={handleClickOpen}
                     >
                         <ModalHeader toggle={handleClose}>
-                            Edit experience
+                            Edit experiences
                         </ModalHeader>
                         <ModalBody>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
@@ -208,7 +216,7 @@ function ExperienceCard(props) {
                                         inputVariant="outlined"
                                         variant="inline"
                                         InputAdornmentProps={{ position: "start" }}
-                                        value={endDate=="Present"?new Date():endDate}
+                                        value={endDate==="Present"?new Date():endDate}
                                         onChange={setEndDate}
                                     /> 
                                 </div>
@@ -224,6 +232,13 @@ function ExperienceCard(props) {
                             </Box>
                         </ModalBody>
                          <ModalFooter>
+                            <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
                             <Button
                                 variant="contained"
                                 color="primary"

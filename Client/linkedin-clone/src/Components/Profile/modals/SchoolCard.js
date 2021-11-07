@@ -1,9 +1,8 @@
 import React,{useState} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,DialogContent,Button,DialogActions,Dialog,DialogContentText,DialogTitle} from '@material-ui/core';
+import {TextField,Button,DialogTitle} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
-import {BsPlusLg} from 'react-icons/bs'
 import PropTypes from 'prop-types';
 import './education.css'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
@@ -84,6 +83,11 @@ function SchoolCard(props) {
         setOpen(false);
     };
 
+    const handleDelete=(e)=>{
+        e.preventDefault();
+        props.deleteEducation(id);
+        setOpen(false)
+    }
     const handleSubmit=(e)=>{
         e.preventDefault();
         // if(startYear>=endYear)
@@ -228,6 +232,13 @@ function SchoolCard(props) {
                             </Box>
                         </ModalBody>
                          <ModalFooter>
+                            <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
                             <Button
                                 variant="contained"
                                 color="primary"

@@ -70,6 +70,22 @@ router.put('/profile/education/:id',authenticate.verifyUser,(req,res,next)=>{
   })
 });
 
+
+router.delete('/profile/education/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Education:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+
 /////////////////////////////////////////////--Profile-certification--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -102,6 +118,19 @@ router.put('/profile/certification/:id',authenticate.verifyUser,(req,res,next)=>
   })
 });
 
+router.delete('/profile/certification/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Certification:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
 
 /////////////////////////////////////////////---Profile-Experience--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -119,7 +148,7 @@ router.post('/profile/experience',authenticate.verifyUser,(req,res,next)=>{
 });
 
 router.put('/profile/experience/:id',authenticate.verifyUser,(req,res,next)=>{ 
-  User.update({'_id':req.user._id},{$set:{"Experience.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+  User.updateOne({'_id':req.user._id},{$set:{"Experience.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
     console.log(req.body)
     if (err){
         console.log(err)
@@ -132,6 +161,150 @@ router.put('/profile/experience/:id',authenticate.verifyUser,(req,res,next)=>{
   })
 }); 
 
+router.delete('/profile/experience/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Experience:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+//////////////////////////////////////////--Profile-Course---\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+router.post('/profile/courses',authenticate.verifyUser,(req,res,next)=>{  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Courses.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Added Succesfully"});
+      })            
+  })
+});
+
+
+router.put('/profile/courses/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$set:{"Courses.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+router.delete('/profile/courses/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Courses:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+////////////////////////////////////////////---Profile-Languages--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+router.post('/profile/languages',authenticate.verifyUser,(req,res,next)=>{  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Languages.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Added Succesfully"});
+      })            
+  })
+});
+
+
+router.put('/profile/languages/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.update({'_id':req.user._id},{$set:{"Languages.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+
+router.delete('/profile/languages/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Languages:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+////////////////////////////////////////////---Profile-Projects--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+router.post('/profile/projects',authenticate.verifyUser,(req,res,next)=>{  
+  User.findById(req.user._id)
+  .then((user)=>{
+      user.Projects.push(req.body);
+      user.save().then((user) => {
+        console.log(req.body)
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({status:"Added Succesfully"});
+      })            
+  })
+});
+
+router.put('/profile/projects/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.update({'_id':req.user._id},{$set:{"Projects.$[elem]":req.body}},{multi: true,arrayFilters: [ { "elem._id":req.params.id } ]},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
+
+router.delete('/profile/projects/:id',authenticate.verifyUser,(req,res,next)=>{ 
+  User.updateOne({'_id':req.user._id},{$pull:{Projects:{_id:req.params.id}}},{multi: true},function (err, docs){
+    console.log(req.body)
+    if (err){
+        console.log(err)
+    }
+    else{
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({docs});
+    }
+  })
+}); 
 
 
 /////////////////////////////////////////////----SignUp-Login----\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

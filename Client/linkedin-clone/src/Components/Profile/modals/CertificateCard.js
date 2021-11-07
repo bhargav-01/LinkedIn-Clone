@@ -60,6 +60,13 @@ function SchoolCard(props) {
         setOpen(false);
     };
 
+    const handleDelete=(e)=>{
+        e.preventDefault();
+        props.deleteCertification(id);
+        setOpen(false)
+    }
+    
+
     const handleSubmit=(e)=>{
         e.preventDefault();
         props.editCertification(id,name,organization,issueDate,cId,cURL);
@@ -172,6 +179,13 @@ function SchoolCard(props) {
                         </ModalBody>
                          <ModalFooter>
                             <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={(e)=>handleSubmit(e)}>
@@ -182,8 +196,6 @@ function SchoolCard(props) {
                 </div>
                 <div>{props.certificate.organization}</div>
                 <div>{new Date(props.certificate.issueDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>
-                {/* <div style={{color: "dimgray"}}>{props.school.activity!==""?"Activity and Society: "+props.school.activity:null }</div>
-                <div style={{marginTop:5}}>{description!==""?props.school.description:null}</div> */}
             </div>
         </div>
     )

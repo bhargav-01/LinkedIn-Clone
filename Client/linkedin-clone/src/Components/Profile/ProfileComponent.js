@@ -14,7 +14,7 @@ import {BsPlusLg} from 'react-icons/bs'
 import EducationCard from './modals/EducationCard'
 import CertificationCard from './modals/CertificationCard'
 import ExperienceCard from './modals/ExperienceCard'
-import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
+import AccomplishmentsCard from './modals/AccomplishmentsCard'
 const axios=require('axios');
 
 const Input = styled('input')({
@@ -234,6 +234,83 @@ function Profile(props) {
         });
     }
 
+    const deleteExperience=(id)=>{
+        // alert("delete");
+        instance.delete('/profile/experience/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const submitCourse=(course,courseId)=>{
+        instance.post('/profile/courses',{
+            course:course,
+            courseId:courseId
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    
+    const editCourse=(id,course,courseId)=>{
+        instance.put('/profile/courses/'+id,{
+            course:course,
+            courseId:courseId
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const submitLanguage=(language,proficiency)=>{
+        instance.post('/profile/languages',{
+            language:language,
+            proficiency:proficiency
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const editLanguage=(id,language,proficiency)=>{
+        instance.put('/profile/languages/'+id,{
+            language:language,
+            proficiency:proficiency
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const submitProject=(project,startDate,endDate,projectURL,description)=>{
+        instance.post('/profile/projects',{
+            project:project,
+            startDate:startDate,
+            endDate:endDate,
+            projectURL:projectURL,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const editProject=(id,project,startDate,endDate,projectURL,description)=>{
+        instance.put('/profile/projects/'+id,{
+            project:project,
+            startDate:startDate,
+            endDate:endDate,
+            projectURL:projectURL,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    
+
     const editCertification=(id,name,organization,issueDate,cId,cURL)=>{
         instance.put('/profile/certification/'+id,{
             name:name,
@@ -263,6 +340,42 @@ function Profile(props) {
             console.log(response.data);
         });
     }
+
+    const deleteEducation=(id)=>{
+        instance.delete('/profile/education/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const deleteCertification=(id)=>{
+        instance.delete('/profile/certification/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const deleteProject=(id)=>{
+        instance.delete('/profile/projects/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const deleteCourse=(id)=>{
+        instance.delete('/profile/courses/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+
+    const deleteLanguage=(id)=>{
+        instance.delete('/profile/languages/'+id)
+        .then(response=>{
+            console.log(response.data);
+        });
+    }
+    
     const handleSubmit=(event)=>{
         event.preventDefault();
         const now= new Date();
@@ -418,9 +531,20 @@ function Profile(props) {
                 </div>
             </div>
             
-            <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation}/>
-            <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile}/>
-            <ExperienceCard  submitExperience={submitExperience} editExperience={editExperience} profile={profile}/>
+            {profile!=null && profile.Education.length!==0 && <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation} deleteEducation={deleteEducation}/>}
+            {profile!=null && profile.Certification.length!==0 && <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile} deleteCertification={deleteCertification}/>}
+            {profile!=null && profile.Experience.length!==0 && <ExperienceCard  deleteExperience={deleteExperience} submitExperience={submitExperience} editExperience={editExperience} profile={profile} />}
+            <AccomplishmentsCard 
+                profile={profile}
+                submitCourse={submitCourse} 
+                editCourse={editCourse} 
+                deleteCourse={deleteCourse}
+                submitLanguage={submitLanguage} 
+                editLanguage={editLanguage} 
+                deleteLanguage={deleteLanguage}
+                submitProject={submitProject} 
+                editProject={editProject}
+                deleteProject={deleteProject}/>
         </div>
 
 

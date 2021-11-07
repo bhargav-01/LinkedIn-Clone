@@ -237,7 +237,7 @@ function EducationCard(props) {
                 {props.profile==null?null:
                     props.profile.Education.map((school)=>{
                         return(
-                            <SchoolCard school={school} editEducation={props.editEducation}/>
+                            <SchoolCard school={school} editEducation={props.editEducation} deleteEducation={props.deleteEducation}/>
                         )
                     })
                 }
