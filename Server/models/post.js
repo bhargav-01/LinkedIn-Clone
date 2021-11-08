@@ -2,6 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
+const Like = new Schema({
+  userID:{
+    type:String
+  }
+})
+
 const Post = new Schema({
     author: {
       type:mongoose.Schema.Types.ObjectId,
@@ -20,7 +26,8 @@ const Post = new Schema({
     },
     featured:{
       type: String,
-    }
+    },
+    likes:[Like]
 });
 
 Post.plugin(passportLocalMongoose);

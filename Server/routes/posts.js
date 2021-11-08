@@ -7,36 +7,51 @@ var authenticate = require('../authenticate');
 const postRouter=express.Router();
 postRouter.use(bodyParser.json());
 
-postRouter.route('/')
-.get((res,next)=>{
+postRouter.get('/',(req,res,next)=>{
     Post.find({})
+    .populate('author')
     .then((post)=>{
         res.statusCode=200;
         res.setHeader('Content-type','application/json');
         res.json(post);
     },(err)=>next(err))
-    .catch((err)=>next(err));
+    .catch((err) => next(err));
     })
 
-.post(authenticate.verifyUser, (req, res, next) => {
+postRouter.post('/',authenticate.verifyUser, (req, res, next) => {
+    req.body.author = req.user._id;
+    console.log(req.body);
     Post.create(req.body)
-    .then((dish) => {
+    //let newComment = new Post({
+    //     ...req.body,
+    //     author: req.user._id
+    //  });
+     
+    //  newComment.save()
+    .then((post) => {
+        console.log(post)
+        Post.findById(post._id)
+        
+        .populate('author')
+        .then((post)=>{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(dish);
+        res.json(post);
+        })
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.put(authenticate.verifyUser, (res) => {
+
+postRouter.put('/',authenticate.verifyUser, (req,res) => {
     res.statusCode = 403;
     res.end('PUT is not supported in this version!');
 })
-.delete(authenticate.verifyUser, (res, next) => {
+postRouter.delete('/',authenticate.verifyUser, (req,res, next) => {
     Post.remove({})
-    .then((res) => {
+    .then((post) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(res);
+        res.json(post);
     }, (err) => next(err))
     .catch((err) => next(err));    
 });
