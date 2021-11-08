@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,Fragment} from 'react'
 import Box from '@material-ui/core/Box';
 import {TextField,Button,DialogTitle} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
@@ -252,7 +252,7 @@ function SchoolCard(props) {
                 <div>{new Date(props.school.Start_Year).getFullYear()+"-"+new Date(props.school.End_Year).getFullYear()}</div>
                 <div>{props.school.Degree+", "+props.school.Specialization}</div>
                 <div style={{color: "dimgray"}}>{props.school.activity!==""?"Activity and Society: "+props.school.activity:null }</div>
-                <div style={{marginTop:5}}>{description!==""?props.school.description:null}</div>
+                <div style={{marginTop:5}}>{description!==""?props.school.description.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>}):null}</div>
             </div>
         </div>
     )

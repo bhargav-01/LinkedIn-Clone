@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,Fragment} from 'react'
 import {Modal,ModalHeader,ModalBody,ModalFooter,Input,Label} from 'reactstrap'
 import {Button,Box,FormControlLabel,Checkbox} from '@material-ui/core';
 import {MdModeEditOutline} from 'react-icons/md'
@@ -146,7 +146,7 @@ function CoursesCard(props) {
                 </div>
                 {props.projects.endDate!=="Present" && <div>{new Date(props.projects.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+new Date(props.projects.endDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>}
                 {props.projects.endDate==="Present" && <div>{new Date(props.projects.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+props.projects.endDate}</div>}
-                <div style={{marginTop:15}}>{description!==""?props.projects.description:null}</div>
+                <div style={{marginTop:15}}>{description!==""?props.projects.description.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>}):null}</div>
             </div>
         </div>
     )

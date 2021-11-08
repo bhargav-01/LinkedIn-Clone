@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,Fragment} from 'react'
 import Box from '@material-ui/core/Box';
 import {TextField,Button,FormControl,MenuItem,Select,InputLabel,FormControlLabel,Checkbox} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
@@ -252,7 +252,7 @@ function ExperienceCard(props) {
                 {props.experience.endDate!=="Present" && <div>{new Date(props.experience.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+new Date(props.experience.endDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>}
                 {props.experience.endDate==="Present" && <div>{new Date(props.experience.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+props.experience.endDate}</div>}
                 {props.experience.location!==null && <div>{props.experience.location}</div>}
-                <div style={{marginTop:5}}>{description!==""?props.experience.description:null}</div>
+                <div style={{marginTop:5}}>{description!==""?props.experience.description.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>}):null}</div>
             </div>
         </div>
     )

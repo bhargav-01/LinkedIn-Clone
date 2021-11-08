@@ -1,17 +1,17 @@
 .banner_img{
     object-fit: fill;
-    width: 650px;
+    width: 750px;
     box-shadow: 0px 20px 20px 0px #e1e1e1;
     height: 160px;
 }
 
 .profile_card{
-    width: 650px;
+    width: 750px;
     margin:10px;
 }
 .image_conatiner{
     position: relative;
-    width: 650px;
+    width: 750px;
     height: 250px;
 }
 
