@@ -1,6 +1,6 @@
 import React,{useState,Fragment} from 'react'
 import {Modal,ModalHeader,ModalBody,ModalFooter,Input,Label} from 'reactstrap'
-import {Button,Box,FormControlLabel,Checkbox} from '@material-ui/core';
+import {Button,Box,FormControlLabel,Checkbox,IconButton} from '@material-ui/core';
 import {MdModeEditOutline} from 'react-icons/md'
 import {DatePicker} from '@material-ui/pickers'
 
@@ -47,9 +47,9 @@ function CoursesCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.projects.project}</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
                         <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    </IconButton>
                     <Modal
                         centered
                         scrollable

@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {Modal,ModalHeader,ModalBody,ModalFooter,Input,Label} from 'reactstrap'
-import {Button,Box} from '@material-ui/core';
+import {Button,Box,IconButton} from '@material-ui/core';
 import {MdModeEditOutline} from 'react-icons/md'
 
 function LanguagesCard(props) {
@@ -34,9 +34,9 @@ function LanguagesCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.languages.language}</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
                         <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    </IconButton>
                     <Modal
                         centered
                         scrollable

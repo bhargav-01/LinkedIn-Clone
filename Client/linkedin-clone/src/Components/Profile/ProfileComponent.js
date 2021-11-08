@@ -620,7 +620,7 @@ function Profile(props) {
 
     
     return (
-        <div>
+        <div className="profile-container">
             <div className="card profile_card">
                 <div className="image_conatiner">
                     <div className="banner">
@@ -664,7 +664,7 @@ function Profile(props) {
                                 <div>
                                      <DialogContent dividers style={{textAlign:"center"}}>
                                         <h5>{profile==null?"":profile.firstname}, keep your profile fresh!</h5>
-                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"340px"}}/>
+                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"230","border-radius":"50%"}}/>
                                         <p>Take or upload a photo. Then crop, filter and adjust it to perfection.</p>
                                     </DialogContent>
                                     <DialogActions>

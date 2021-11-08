@@ -1,6 +1,6 @@
 import React,{useState,Fragment} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,Button,DialogTitle} from '@material-ui/core';
+import {TextField,Button,DialogTitle,IconButton} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
 import PropTypes from 'prop-types';
@@ -99,9 +99,9 @@ function SchoolCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.school.Name_of_School}</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
                         <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    </IconButton>
                     <Modal
                         centered
                         scrollable
