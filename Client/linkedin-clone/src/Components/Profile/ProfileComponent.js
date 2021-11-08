@@ -60,6 +60,7 @@ function readFile(file) {
     })
 }
 function Profile(props) {
+    const [owner, setOwner] = useState(false);
     const [open, setOpen] = useState(false);
     const [openImage, setOpenImage] = useState(false);
     const [openNameModal, setOpenNameModal] = useState(false);
@@ -99,21 +100,13 @@ function Profile(props) {
         setOpenAbout(false);
     }
     const handleClickOpenImage = () => {
-        setOpenImage(true);
+        if(owner===true)
+            setOpenImage(true);
     };
     const handleCloseImage = () => {
         setOpenImage(false);
     };
 
-    const descriptionElementRef = React.useRef(null);
-    React.useEffect(() => {
-      if (open) {
-        const { current: descriptionElement } = descriptionElementRef;
-        if (descriptionElement !== null) {
-          descriptionElement.focus();
-        }
-      }
-    }, [open]);
    
     const action = key => (
         <Fragment>
@@ -124,14 +117,29 @@ function Profile(props) {
     );
 
     useEffect(() => {
-       
-        instance.get('/profile')
-        .then(response=>{
-            console.log(response.data)
-            console.log(response.data.firstname)
-            setProfile(response.data);
-            setAbout(response.data.about);
-        });
+        // alert(props.match.params.id);
+        if(props.match.params.id==='profile')
+        {
+            instance.get('/profile')
+            .then(response=>{
+                console.log(response.data)
+                setProfile(response.data.profile);
+                setOwner(true);
+                setAbout(response.data.profile.about);
+            });
+        }
+        else
+        {
+            instance.get('/profile/'+props.match.params.id)
+            .then(response=>{
+                console.log(response.data)
+                setProfile(response.data.profile);
+                if(response.data.owner===true)
+                    setOwner(true);
+                setAbout(response.data.profile.about);
+            });
+        }
+        
     },[])
 
     const submitProfileImage=(file)=>{
@@ -626,31 +634,33 @@ function Profile(props) {
                     <div className="banner">
                         <img  className="banner_img" src={(profile==null||profile.background_image==="")?'assets/images/4820571.jpg':profile.background_image} alt="bhargav"></img>
                     </div>
-                    <div className="camera">
-                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
-                            <BsCameraFill className="icon"/>
-                        </Button>
-                        <BootstrapDialog
-                            onClose={handleClose}
-                            aria-labelledby="customized-dialog-title"
-                            open={open}>
-                            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                                Add background photo
-                            </BootstrapDialogTitle>    
-                            <DialogContent dividers style={{textAlign:"center"}}>
-                                <img src='assets/images/success.png' alt="Profile" style={{width:"340px"}}/>
-                                <h5>Showcase your personality, interests, team moments or notable milestones</h5>
-                            </DialogContent>
-                            <DialogActions>
-                                <label htmlFor="contained-button-file">
-                                    <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={(e)=>handleSubmit(e)}/>
-                                    <Button color="primary" style={{textTransform:'none'}} variant="contained" component="span">
-                                        Edit profile Background
-                                    </Button>
-                                </label>
-                            </DialogActions>
-                        </BootstrapDialog>
-                    </div>
+                    {owner===true && 
+                        <div className="camera">
+                            <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                                <BsCameraFill className="icon"/>
+                            </Button>
+                            <BootstrapDialog
+                                onClose={handleClose}
+                                aria-labelledby="customized-dialog-title"
+                                open={open}>
+                                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                                    Add background photo
+                                </BootstrapDialogTitle>    
+                                <DialogContent dividers style={{textAlign:"center"}}>
+                                    <img src='assets/images/success.png' alt="Profile" style={{width:"340px"}}/>
+                                    <h5>Showcase your personality, interests, team moments or notable milestones</h5>
+                                </DialogContent>
+                                <DialogActions>
+                                    <label htmlFor="contained-button-file">
+                                        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={(e)=>handleSubmit(e)}/>
+                                        <Button color="primary" style={{textTransform:'none'}} variant="contained" component="span">
+                                            Edit profile Background
+                                        </Button>
+                                    </label>
+                                </DialogActions>
+                            </BootstrapDialog>
+                        </div>
+                    }
                     <div className="profile">
                         <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" className="profile_img" onClick={handleClickOpenImage}/>
                         <BootstrapDialog
@@ -664,7 +674,7 @@ function Profile(props) {
                                 <div>
                                      <DialogContent dividers style={{textAlign:"center"}}>
                                         <h5>{profile==null?"":profile.firstname}, keep your profile fresh!</h5>
-                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"230","border-radius":"50%"}}/>
+                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"230px","border-radius":"50%"}}/>
                                         <p>Take or upload a photo. Then crop, filter and adjust it to perfection.</p>
                                     </DialogContent>
                                     <DialogActions>
@@ -689,9 +699,11 @@ function Profile(props) {
                 <div className="card-body">
                     <div className="name-container">
                         <h3 className="card-title">{profile==null?"":profile.firstname+" "+profile.lastname}</h3>
-                        <Button onClick={hadleClickNameModal} sx={{width:"15px"}}>
-                            <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                        </Button>
+                        {owner===true &&
+                            <Button onClick={hadleClickNameModal} sx={{width:"15px"}}>
+                                 <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
+                            </Button>
+                        }
                         <BootstrapDialog
                             onClose={hadleCloseNameModal}
                             aria-labelledby="customized-dialog-title"
@@ -710,9 +722,12 @@ function Profile(props) {
                 <div className="card-body">
                     <div className="name-container">
                         <h5 class="card-title">About</h5>
-                        <Button onClick={handleClickAbout} sx={{width:"15px"}}>
-                            <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                        </Button>
+                        {owner===true &&
+                            <Button onClick={handleClickAbout} sx={{width:"15px"}}>
+                                <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
+                            </Button> 
+                        }
+                        
                         <BootstrapDialog
                             onClose={handleCloseAbout}
                             aria-labelledby="customized-dialog-title"
@@ -742,11 +757,12 @@ function Profile(props) {
                 </div>
             </div>
             
-            {profile!=null && profile.Education.length!==0 && <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation} deleteEducation={deleteEducation}/>}
-            {profile!=null && profile.Certification.length!==0 && <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile} deleteCertification={deleteCertification}/>}
-            {profile!=null && profile.Experience.length!==0 && <ExperienceCard  deleteExperience={deleteExperience} submitExperience={submitExperience} editExperience={editExperience} profile={profile} />}
+            {profile!=null &&  <EducationCard profile={profile} owner={owner} submitEducation={submitEducation} editEducation={editEducation} deleteEducation={deleteEducation}/>}
+            {profile!=null  && <CertificationCard submitCertification={submitCertification} owner={owner} editCertification={editCertification} profile={profile} deleteCertification={deleteCertification}/>}
+            {profile!=null &&  <ExperienceCard  deleteExperience={deleteExperience} owner={owner} submitExperience={submitExperience} editExperience={editExperience} profile={profile} />}
             <AccomplishmentsCard 
                 profile={profile}
+                owner={owner}
                 submitCourse={submitCourse} 
                 editCourse={editCourse} 
                 deleteCourse={deleteCourse}

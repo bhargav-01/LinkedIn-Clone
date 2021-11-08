@@ -148,13 +148,17 @@ function Accomplishments(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">Accomplishments</h5>
-                    <Button id="basic-button"
-                        aria-controls="basic-menu"
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick} sx={{width:"15px"}}>
-                        <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    {
+                        props.owner===true && 
+                        <Button id="basic-button"
+                            aria-controls="basic-menu"
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick} sx={{width:"15px"}}>
+                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </Button>
+                    }
+                    
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
@@ -367,7 +371,7 @@ function Accomplishments(props) {
                             {
                                 dropDownLanguage &&
                                 props.profile.Languages.map((l)=>{
-                                    return(<LanguagesCard languages={l} editLanguage={props.editLanguage} deleteLanguage={props.deleteLanguage}/>)
+                                    return(<LanguagesCard languages={l} owner={props.owner} editLanguage={props.editLanguage} deleteLanguage={props.deleteLanguage}/>)
                                 })
                             }
                         </div>
@@ -393,7 +397,7 @@ function Accomplishments(props) {
                             {
                                 dropDownCourse &&
                                 props.profile.Courses.map((c)=>{
-                                    return(<CoursesCard courses={c} editCourse={props.editCourse} deleteCourse={props.deleteCourse}/>)
+                                    return(<CoursesCard courses={c} owner={props.owner} editCourse={props.editCourse} deleteCourse={props.deleteCourse}/>)
                                 })
                             }
                         </div>
@@ -419,7 +423,7 @@ function Accomplishments(props) {
                             {
                                 dropDownProject &&
                                 props.profile.Projects.map((p)=>{
-                                    return(<ProjectCard projects={p} editProject={props.editProject}  deleteProject={props.deleteProject}/>)
+                                    return(<ProjectCard projects={p} owner={props.owner} editProject={props.editProject}  deleteProject={props.deleteProject}/>)
                                 })
                             }
                         </div>

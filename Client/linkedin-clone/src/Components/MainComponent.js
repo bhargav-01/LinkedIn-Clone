@@ -8,21 +8,20 @@ import StudyDetails from './Login/StudentComponent'
 import Profile from './Profile/ProfileComponent'
 import PostWithID from './PostWithID';
 import Home from './HomeComponent';
-import PrimarySearchAppBar from'./HeaderComponent';
 function Main(props) {
-    // const Home= () => {
-    //     <Home posts={props.posts}/>
-    // }
+    const Home= () => {
+        <Home posts={props.posts}/>
+    }
     
     return (
             <div>
-                <PrimarySearchAppBar />
                 <Switch>
                     <Route path='/SignUp' component={SignUp}/>
                     <Route path='/Login' component={Login}/>
                     <Route path='/Ldetails' component={LocationDetails}/>
                     <Route path='/Jdetails' component={JobDetails}/>
-                    <Route path='/try' component={Profile}/>
+                    <Route path='/:id' component={Profile}/>
+                    <Route exact path='/profile' component={Profile}/>
                     <Route path='/Sdetails' component={StudyDetails}/>
                     <Route path='/post' component={PostWithID}/>
                     <Route path='/home' component={Home}/>

@@ -34,9 +34,13 @@ function LanguagesCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.languages.language}</h5>
-                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
-                        <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </IconButton>
+                    {
+                        props.owner===true &&
+                        <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </IconButton>
+                    }
+                    
                     <Modal
                         centered
                         scrollable

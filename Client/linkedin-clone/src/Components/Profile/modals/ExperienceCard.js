@@ -78,9 +78,13 @@ function ExperienceCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">Experience</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
-                        <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    {
+                        props.owner===true &&  
+                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </Button>
+                    }
+                   
                     <Modal
                         centered
                         scrollable
@@ -242,7 +246,7 @@ function ExperienceCard(props) {
                 {props.profile==null?null:
                     props.profile.Experience.map((experience)=>{
                         return(
-                            <JobCard experience={experience} editExperience={props.editExperience} deleteExperience={props.deleteExperience}/>
+                            <JobCard owner={props.owner} experience={experience} editExperience={props.editExperience} deleteExperience={props.deleteExperience}/>
                         )
                     })
                 }

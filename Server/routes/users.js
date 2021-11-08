@@ -33,7 +33,22 @@ router.get('/Profile',authenticate.verifyUser,(req,res,next)=>{
   .then(data=>{
       res.statusCode=200,
       res.setHeader('Content-Type', 'application/json');
-      res.json(data);
+      // res.json(data);
+      res.json({profile:data,owner:true});
+  })
+  .catch(err=>next(err));
+})
+
+router.get('/Profile/:id',authenticate.verifyUser,(req,res,next)=>{
+  User.findById(req.params.id)
+  .then(data=>{
+      res.statusCode=200,
+      res.setHeader('Content-Type', 'application/json');
+      if(req.params.id==req.user._id)
+        res.json({profile:data,owner:true});
+      else
+        res.json({profile:data,owner:false});
+
   })
   .catch(err=>next(err));
 })
