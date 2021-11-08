@@ -1,14 +1,12 @@
 import React,{useState} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,DialogContent,Button,DialogActions,Dialog,DialogContentText,DialogTitle} from '@material-ui/core';
+import {TextField,Button,FormControl,MenuItem,Select,InputLabel,FormControlLabel,Checkbox} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
 import {BsPlusLg} from 'react-icons/bs'
-import PropTypes from 'prop-types';
 import './education.css'
+import JobCard from './JobCard'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
-import SchoolCard from './SchoolCard'
-// import DatePicker from '@mui/lab/DatePicker';
 
 
 const useStyles = makeStyles((theme) =>({
@@ -44,36 +42,18 @@ const useStyles = makeStyles((theme) =>({
 }));
 
  
-const BootstrapDialogTitle = (props) => {
-    const { children, onClose, ...other } = props;
-
-    return (
-        <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-            {children}
-            {onClose ? (
-            <button type="button" className="btn-close modal-close"  onClick={onClose} aria-label="Close"></button>
-            ) : null}
-        </DialogTitle>
-        );
-};
-  
-BootstrapDialogTitle.propTypes = {
-    children: PropTypes.node,
-    onClose: PropTypes.func.isRequired,
-};
-
-function EducationCard(props) {
+function ExperienceCard(props) {
     const classes = useStyles(); 
-    const [open, setOpen] = React.useState(false);
-    const [school, setSchool] = useState('');
-    const [degree, setDegree] =useState('');
-    const [fieldofStudy, setFieldofStudy] = useState('');
-    const [startYear, setStartYear] = useState(new Date());
-    const [endYear, setEndYear] = useState(null);
-    const [grade, setGrade] = useState('');
-    const [activity, setActivity] = useState('');
-    const [description, setDescription] = useState('');
-
+    const [open, setOpen] = useState(false);
+    const [present, setPresent] = useState(false);
+    const [title, setTitle] = useState('');
+    const [type, setType] =useState('');
+    const [name, setName] =useState('');
+    const [location, setLocation] =useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [description, setDescription] = useState();
+   
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -81,17 +61,23 @@ function EducationCard(props) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleChange = (event) => {
+        setPresent(event.target.checked);
+      };
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        props.submitEducation(school,degree,fieldofStudy,startYear,endYear,grade,activity,description);
+        if(present==="true")
+            props.submitExperience(title,type,name,location,startDate,"Present",description);
+        else
+            props.submitExperience(title,type,name,location,startDate,endDate,description);
         setOpen(false)
     }
     return (
         <div className="card profile_card">
             <div className="card-body">
                 <div className="name-container">
-                    <h5 class="card-title">Education</h5>
+                    <h5 class="card-title">Experience</h5>
                     <Button onClick={handleClickOpen} sx={{width:"15px"}}>
                         <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
                     </Button>
@@ -103,12 +89,12 @@ function EducationCard(props) {
                         toggle={handleClickOpen}
                     >
                         <ModalHeader toggle={handleClose}>
-                            Modal title
+                            Add experience
                         </ModalHeader>
                         <ModalBody>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
                                 <TextField 
-                                    label="School"
+                                    label="Title"
                                     id="outlined-basic" 
                                     variant="outlined"
                                     fullWidth 
@@ -121,12 +107,49 @@ function EducationCard(props) {
                                         }
                                     }}
                                     required
-                                    value={school}
-                                    onChange={e => setSchool(e.target.value)} />
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)} />
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:20}}>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
+                                <FormControl variant="outlined" className={classes.root} 
+                                    InputLabelProps={{
+                                            classes: {
+                                                root: classes.label,
+                                            }
+                                    }}
+                                    fullWidth>
+                                    <InputLabel id="demo-simple-select-label"
+                                        InputLabelProps={{
+                                            classes: {
+                                                root: classes.label,
+                                            }
+                                        }}>
+                                        Employment type
+                                    </InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        className={classes.root}
+                                        value={type}
+                                        InputLabelProps={{
+                                            classes: {
+                                                root: classes.label,
+                                            }
+                                        }}
+                                        label="Employment type"
+                                        onChange={(e)=>setType(e.target.value)}>
+                                        <MenuItem value={"Full-time"}>Full-time</MenuItem>
+                                        <MenuItem value={"Part-time"}>Part-time</MenuItem>
+                                        <MenuItem value={"Self Employed"}>Self Employed</MenuItem>
+                                        <MenuItem value={"Freelance"}>Freelance</MenuItem>
+                                        <MenuItem value={"Internship"}>Internship</MenuItem>
+                                        <MenuItem value={"Trainee"}>Trainee</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
                                 <TextField 
-                                    label="Degree"
+                                    label="Company Name"
                                     id="outlined-basic" 
                                     variant="outlined"
                                     fullWidth 
@@ -139,12 +162,12 @@ function EducationCard(props) {
                                         }
                                     }}
                                     required
-                                    value={degree}
-                                    onChange={e => setDegree(e.target.value)} />
+                                    value={name}
+                                    onChange={e => setName(e.target.value)} />
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:20}}>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
                                 <TextField 
-                                    label="Field of study"
+                                    label="Location"
                                     id="outlined-basic" 
                                     variant="outlined"
                                     fullWidth 
@@ -156,71 +179,53 @@ function EducationCard(props) {
                                             root: classes.label,
                                         }
                                     }}
-                                    required
-                                    value={fieldofStudy}
-                                    onChange={e => setFieldofStudy(e.target.value)} />
+                                    value={location}
+                                    onChange={e => setLocation(e.target.value)} />
                             </Box>
+                            <div>
+                                <FormControlLabel control={<Checkbox defaultChecked color="primary"/>} 
+                                    checked={present}
+                                    onChange={handleChange}
+                                    label="I am currently working in this role" />
+                            </div>
                             <div className="row" style={{marginTop:10}}>
                                 <div className="col-12 col-md-6 date">
-                                    <label for="start-year" className="form-label">Start year*</label>
+                                    <label for="startDate" className="form-label">End year (or expected)*</label>
                                     <DatePicker
-                                        views={["year"]}
-                                        id="start-year"
-                                        inputVariant="outlined"
-                                        variant="inline"
-                                        maxDate={new Date()}
-                                        InputAdornmentProps={{ position: "start" }}
-                                        value={startYear}
-                                        onChange={setStartYear}
-                                    /> 
-                                </div>
-
-                                <div className="col-12 col-md-6 date">
-                                    <label for="end_year" className="form-label">End year (or expected)*</label>
-                                    <DatePicker
-                                        views={["year"]}
-                                        id="end_year"
+                                        views={["year", "month"]}
+                                        id="startDate"
+                                        className={classes.root}
                                         inputVariant="outlined"
                                         variant="inline"
                                         InputAdornmentProps={{ position: "start" }}
-                                        value={endYear}
-                                        onChange={setEndYear}
+                                        value={startDate}
+                                        onChange={setStartDate}
                                     /> 
                                 </div>
                             </div>
-                            <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
-                                <TextField 
-                                    label="Grade"
-                                    id="outlined-basic" 
-                                    variant="outlined"
-                                    fullWidth 
-                                    color="#FFF"
-                                    className={classes.root}
-                                    inputProps={{className:classes.input}}
-                                    InputLabelProps={{
-                                        classes: {
-                                            root: classes.label,
-                                        }
-                                    }}
-                                    value={grade}
-                                    onChange={e => setGrade(e.target.value)} />
-                            </Box>
-                            <Box sx={{marginTop:30 }}>
-                                <label for="exampleFormControlTextarea1" className="form-label">Activities and societies</label>
-                                <textarea className="form-control textarea"
-                                    id="exampleFormControlTextarea1 textarea" 
-                                    rows="3"
-                                    value={activity}
-                                    style={{fontSize:'1.2rem'}}
-                                    onChange={(e)=>setActivity(e.target.value)}/>
-                            </Box>
+                            <div className="row" style={{marginTop:10}}>
+                                <div className="col-12 col-md-6 date">
+                                    <label for="endDate" className="form-label">End year (or expected)*</label>
+                                    <DatePicker
+                                        views={["year", "month"]}
+                                        id="endDate"
+                                        disabled={present}
+                                        className={classes.root}
+                                        inputVariant="outlined"
+                                        variant="inline"
+                                        InputAdornmentProps={{ position: "start" }}
+                                        value={endDate}
+                                        onChange={setEndDate}
+                                    /> 
+                                </div>
+                            </div>
                             <Box sx={{marginTop:50 }}>
-                            <label for="exampleFormControlTextarea2" className="form-label">Description</label>
+                                <label for="exampleFormControlTextarea2" className="form-label">Description</label>
                                 <textarea className="form-control textarea"
                                     id="exampleFormControlTextarea2 " 
                                     rows="3"
                                     value={description}
-                                    style={{fontSize:'1.2rem'}}
+                                    style={{fontSize:'1.2rem',border: "1px solid black"}}
                                     onChange={(e)=>setDescription(e.target.value)}/>
                             </Box>
                         </ModalBody>
@@ -235,9 +240,9 @@ function EducationCard(props) {
                     </Modal>
                 </div>
                 {props.profile==null?null:
-                    props.profile.Education.map((school)=>{
+                    props.profile.Experience.map((experience)=>{
                         return(
-                            <SchoolCard school={school} editEducation={props.editEducation} deleteEducation={props.deleteEducation}/>
+                            <JobCard experience={experience} editExperience={props.editExperience} deleteExperience={props.deleteExperience}/>
                         )
                     })
                 }
@@ -246,4 +251,4 @@ function EducationCard(props) {
     )
 }
 
-export default EducationCard
+export default ExperienceCard

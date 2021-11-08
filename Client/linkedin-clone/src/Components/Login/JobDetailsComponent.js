@@ -30,9 +30,9 @@ function JobDetails(props) {
             headers: {'Authorization': `Bearer ${token}`}
         });
         instance.post('/signup/Jd',{
-            Employment_type:e_type,
-            Company_Name:company,
-            Position:specialization,
+            employment_type:e_type,
+            companyname:company,
+            title:specialization,
         })
         .then(response=>{
             console.log(response);

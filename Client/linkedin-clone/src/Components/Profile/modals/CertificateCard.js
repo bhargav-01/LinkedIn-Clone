@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,Button} from '@material-ui/core';
+import {TextField,Button,IconButton} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
 import './education.css'
@@ -60,6 +60,13 @@ function SchoolCard(props) {
         setOpen(false);
     };
 
+    const handleDelete=(e)=>{
+        e.preventDefault();
+        props.deleteCertification(id);
+        setOpen(false)
+    }
+    
+
     const handleSubmit=(e)=>{
         e.preventDefault();
         props.editCertification(id,name,organization,issueDate,cId,cURL);
@@ -70,9 +77,9 @@ function SchoolCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.certificate.name}</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
                         <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    </IconButton>
                     <Modal
                         centered
                         scrollable
@@ -172,6 +179,13 @@ function SchoolCard(props) {
                         </ModalBody>
                          <ModalFooter>
                             <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={(e)=>handleSubmit(e)}>
@@ -179,12 +193,9 @@ function SchoolCard(props) {
                             </Button>
                             </ModalFooter>
                     </Modal>
-                   
                 </div>
                 <div>{props.certificate.organization}</div>
                 <div>{new Date(props.certificate.issueDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>
-                {/* <div style={{color: "dimgray"}}>{props.school.activity!==""?"Activity and Society: "+props.school.activity:null }</div>
-                <div style={{marginTop:5}}>{description!==""?props.school.description:null}</div> */}
             </div>
         </div>
     )

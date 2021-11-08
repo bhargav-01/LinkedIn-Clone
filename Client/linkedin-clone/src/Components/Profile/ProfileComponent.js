@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,Fragment} from 'react'
 import PropTypes from 'prop-types';
 import styled from '@material-ui/core/styles/styled'
 import {DialogTitle,Dialog,DialogContent,Button,DialogActions,DialogContentText} from '@material-ui/core'
@@ -11,9 +11,13 @@ import firebaseConfig  from '../../firebaseIni'
 import { getStorage,ref,uploadBytes,getDownloadURL } from "firebase/storage";
 import {MdModeEditOutline} from 'react-icons/md'
 import {BsPlusLg} from 'react-icons/bs'
+import {IoClose} from 'react-icons/io5'
 import EducationCard from './modals/EducationCard'
 import CertificationCard from './modals/CertificationCard'
-import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
+import ExperienceCard from './modals/ExperienceCard'
+import AccomplishmentsCard from './modals/AccomplishmentsCard'
+import { useSnackbar } from 'notistack';
+
 const axios=require('axios');
 
 const Input = styled('input')({
@@ -66,6 +70,7 @@ function Profile(props) {
     const [about,setAbout]=useState('')
     const [profileImage,setProfileImage]=useState(null)
     const token=localStorage.getItem('token');
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const instance = axios.create({
         baseURL: 'http://localhost:3001/users/',
         headers: {'Authorization': `Bearer ${token}`}
@@ -110,6 +115,13 @@ function Profile(props) {
       }
     }, [open]);
    
+    const action = key => (
+        <Fragment>
+            <Button onClick={() => { closeSnackbar(key) }}>
+                <IoClose style={{color:'white',fontSize:"20px"}}/>
+            </Button>
+        </Fragment>
+    );
 
     useEffect(() => {
        
@@ -157,7 +169,17 @@ function Profile(props) {
         .then(response=>{
             setOpenNameModal(false);
             console.log(response.data);
-        });
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            });
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
 
     const submitAbout=(event)=>{
@@ -168,7 +190,17 @@ function Profile(props) {
         .then(response=>{
             setOpenAbout(false);
             console.log(response.data);
-        });
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            });
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
 
     const submitEducation=(school,degree,fieldofStudy,startYear,endYear,grade,activity,description)=>{
@@ -185,8 +217,19 @@ function Profile(props) {
         })
         .then(response=>{
             console.log(response.data);
-        });
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
+
     const submitCertification=(name,organization,issueDate,cId,cURL)=>{
         instance.post('/profile/certification',{
             name:name,
@@ -197,8 +240,217 @@ function Profile(props) {
         })
         .then(response=>{
             console.log(response.data);
-        });
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
+
+    const submitExperience=(title,type,name,location,startDate,endDate,description)=>{
+        instance.post('/profile/experience',{
+            title:title,
+            employment_type:type,
+            companyname:name,
+            location:location,
+            name:name,
+            startDate:startDate,
+            endDate:endDate,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const editExperience=(id,title,type,name,location,startDate,endDate,description)=>{
+        instance.put('/profile/experience/'+id,{
+            title:title,
+            employment_type:type,
+            companyname:name,
+            location:location,
+            name:name,
+            startDate:startDate,
+            endDate:endDate,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const deleteExperience=(id)=>{
+        // alert("delete");
+        instance.delete('/profile/experience/'+id)
+        .then(response=>{
+            console.log(response.data)
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const submitCourse=(course,courseId)=>{
+        instance.post('/profile/courses',{
+            course:course,
+            courseId:courseId
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    
+    const editCourse=(id,course,courseId)=>{
+        instance.put('/profile/courses/'+id,{
+            course:course,
+            courseId:courseId
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const submitLanguage=(language,proficiency)=>{
+        instance.post('/profile/languages',{
+            language:language,
+            proficiency:proficiency
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const editLanguage=(id,language,proficiency)=>{
+        instance.put('/profile/languages/'+id,{
+            language:language,
+            proficiency:proficiency
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const submitProject=(project,startDate,endDate,projectURL,description)=>{
+        instance.post('/profile/projects',{
+            project:project,
+            startDate:startDate,
+            endDate:endDate,
+            projectURL:projectURL,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Added succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const editProject=(id,project,startDate,endDate,projectURL,description)=>{
+        instance.put('/profile/projects/'+id,{
+            project:project,
+            startDate:startDate,
+            endDate:endDate,
+            projectURL:projectURL,
+            description:description,
+        })
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    
 
     const editCertification=(id,name,organization,issueDate,cId,cURL)=>{
         instance.put('/profile/certification/'+id,{
@@ -210,7 +462,17 @@ function Profile(props) {
         })
         .then(response=>{
             console.log(response.data);
-        });
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
 
     const editEducation=(id,school,degree,fieldofStudy,startYear,endYear,grade,activity,description)=>{
@@ -227,8 +489,104 @@ function Profile(props) {
         })
         .then(response=>{
             console.log(response.data);
-        });
+            enqueueSnackbar('Updated succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
     }
+
+    const deleteEducation=(id)=>{
+        instance.delete('/profile/education/'+id)
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const deleteCertification=(id)=>{
+        instance.delete('/profile/certification/'+id)
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const deleteProject=(id)=>{
+        instance.delete('/profile/projects/'+id)
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const deleteCourse=(id)=>{
+        instance.delete('/profile/courses/'+id)
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+
+    const deleteLanguage=(id)=>{
+        instance.delete('/profile/languages/'+id)
+        .then(response=>{
+            console.log(response.data);
+            enqueueSnackbar('Deleted succesfully',{ 
+                variant: 'success',
+                action,
+            })
+        })
+        .catch((err)=>{
+            enqueueSnackbar('Error. Please try again.',{ 
+                variant: 'error',
+                action,
+            });
+        })
+    }
+    
     const handleSubmit=(event)=>{
         event.preventDefault();
         const now= new Date();
@@ -262,7 +620,7 @@ function Profile(props) {
 
     
     return (
-        <div>
+        <div className="profile-container">
             <div className="card profile_card">
                 <div className="image_conatiner">
                     <div className="banner">
@@ -306,7 +664,7 @@ function Profile(props) {
                                 <div>
                                      <DialogContent dividers style={{textAlign:"center"}}>
                                         <h5>{profile==null?"":profile.firstname}, keep your profile fresh!</h5>
-                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"340px"}}/>
+                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"230","border-radius":"50%"}}/>
                                         <p>Take or upload a photo. Then crop, filter and adjust it to perfection.</p>
                                     </DialogContent>
                                     <DialogActions>
@@ -380,12 +738,24 @@ function Profile(props) {
                             </DialogActions>
                         </BootstrapDialog>
                     </div>
-                    {profile==null?"":profile.about}
+                        {profile==null?"":profile.about.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>})}
                 </div>
             </div>
             
-            <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation}/>
-            <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile}/>
+            {profile!=null && profile.Education.length!==0 && <EducationCard profile={profile} submitEducation={submitEducation} editEducation={editEducation} deleteEducation={deleteEducation}/>}
+            {profile!=null && profile.Certification.length!==0 && <CertificationCard submitCertification={submitCertification} editCertification={editCertification} profile={profile} deleteCertification={deleteCertification}/>}
+            {profile!=null && profile.Experience.length!==0 && <ExperienceCard  deleteExperience={deleteExperience} submitExperience={submitExperience} editExperience={editExperience} profile={profile} />}
+            <AccomplishmentsCard 
+                profile={profile}
+                submitCourse={submitCourse} 
+                editCourse={editCourse} 
+                deleteCourse={deleteCourse}
+                submitLanguage={submitLanguage} 
+                editLanguage={editLanguage} 
+                deleteLanguage={deleteLanguage}
+                submitProject={submitProject} 
+                editProject={editProject}
+                deleteProject={deleteProject}/>
         </div>
 
 

@@ -58,6 +58,7 @@ function EductaionCard(props) {
         setOpen(false);
     };
 
+    
     const handleSubmit=(e)=>{
         e.preventDefault();
         props.submitCertification(name,organization,issueDate,cId,cURL);
@@ -181,7 +182,7 @@ function EductaionCard(props) {
                 {props.profile==null?null:
                     props.profile.Certification.map((certificate)=>{
                         return(
-                            <CertificateCard certificate={certificate} editCertification={props.editCertification}/>
+                            <CertificateCard certificate={certificate} editCertification={props.editCertification} deleteCertification={props.deleteCertification}/>
                         )
                     })
                 }

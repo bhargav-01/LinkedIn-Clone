@@ -1,9 +1,8 @@
-import React,{useState} from 'react'
+import React,{useState,Fragment} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,DialogContent,Button,DialogActions,Dialog,DialogContentText,DialogTitle} from '@material-ui/core';
+import {TextField,Button,DialogTitle,IconButton} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
-import {BsPlusLg} from 'react-icons/bs'
 import PropTypes from 'prop-types';
 import './education.css'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
@@ -84,6 +83,11 @@ function SchoolCard(props) {
         setOpen(false);
     };
 
+    const handleDelete=(e)=>{
+        e.preventDefault();
+        props.deleteEducation(id);
+        setOpen(false)
+    }
     const handleSubmit=(e)=>{
         e.preventDefault();
         // if(startYear>=endYear)
@@ -95,9 +99,9 @@ function SchoolCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">{props.school.Name_of_School}</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
                         <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    </IconButton>
                     <Modal
                         centered
                         scrollable
@@ -229,6 +233,13 @@ function SchoolCard(props) {
                         </ModalBody>
                          <ModalFooter>
                             <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={(e)=>handleSubmit(e)}>
@@ -241,7 +252,7 @@ function SchoolCard(props) {
                 <div>{new Date(props.school.Start_Year).getFullYear()+"-"+new Date(props.school.End_Year).getFullYear()}</div>
                 <div>{props.school.Degree+", "+props.school.Specialization}</div>
                 <div style={{color: "dimgray"}}>{props.school.activity!==""?"Activity and Society: "+props.school.activity:null }</div>
-                <div style={{marginTop:5}}>{description!==""?props.school.description:null}</div>
+                <div style={{marginTop:5}}>{description!==""?props.school.description.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>}):null}</div>
             </div>
         </div>
     )
