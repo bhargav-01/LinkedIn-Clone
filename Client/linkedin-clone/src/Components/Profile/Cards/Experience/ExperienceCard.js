@@ -4,7 +4,7 @@ import {TextField,Button,FormControl,MenuItem,Select,InputLabel,FormControlLabel
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
 import {BsPlusLg} from 'react-icons/bs'
-import './education.css'
+import '../Eductaion/education.css'
 import JobCard from './JobCard'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 

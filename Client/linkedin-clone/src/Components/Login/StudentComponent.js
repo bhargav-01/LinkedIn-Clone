@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import {DatePicker} from '@material-ui/pickers'
 import {makeStyles,ThemeProvider,createTheme} from '@material-ui/core/styles'
 import './details.css'
+import logo from '../../assets/images/Linkedin_logo.png'
 
 const axios=require('axios');
 
@@ -55,7 +56,7 @@ function StudyDetails(props) {
             <div className="canvas">
                 <div className="header">
                     <div>
-                         <img src='assets/images/Linkedin_logo.png' alt="Linkedin" className="logo"></img>
+                         <img src={logo} alt="Linkedin" className="logo"></img>
                          <h3 style={{textAlign:"center"}}>Your profile helps you discover new people and opportunities</h3>
                     </div>
                 </div>

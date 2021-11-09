@@ -1,12 +1,13 @@
 import React,{useState} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,Button} from '@material-ui/core';
+import {TextField,Button,IconButton} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
-import {BsPlusLg} from 'react-icons/bs'
-import './education.css'
+import '../Eductaion/education.css'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
-import CertificateCard from './CertificateCard'
+import {MdModeEditOutline} from 'react-icons/md'
+
+// import DatePicker from '@mui/lab/DatePicker';
 
 
 const useStyles = makeStyles((theme) =>({
@@ -41,15 +42,16 @@ const useStyles = makeStyles((theme) =>({
     
 }));
 
- 
-function EductaionCard(props) {
+function SchoolCard(props) {
     const classes = useStyles(); 
     const [open, setOpen] = React.useState(false);
-    const [name, setName] = useState('');
-    const [organization, setOrganization] =useState('');
-    const [issueDate, setIssueDate] = useState(new Date());
-    const [cId, setCId] = useState(null);
-    const [cURL, setCURL] = useState('');
+    const id = props.certificate._id;
+    const [name, setName] = useState(props.certificate.name);
+    const [organization, setOrganization] =useState(props.certificate.organization);
+    const [issueDate, setIssueDate] = useState(props.certificate.issueDate);
+    const [cId, setCId] = useState(props.certificate.cId);
+    const [cURL, setCURL] = useState(props.certificate.cURL);
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -58,23 +60,30 @@ function EductaionCard(props) {
         setOpen(false);
     };
 
+    const handleDelete=(e)=>{
+        e.preventDefault();
+        props.deleteCertification(id);
+        setOpen(false)
+    }
     
+
     const handleSubmit=(e)=>{
         e.preventDefault();
-        props.submitCertification(name,organization,issueDate,cId,cURL);
+        props.editCertification(id,name,organization,issueDate,cId,cURL);
         setOpen(false)
     }
     return (
-        <div className="card profile_card">
+        <div className="card school-card">
             <div className="card-body">
                 <div className="name-container">
-                    <h5 class="card-title">License or Certification</h5>
+                    <h5 class="card-title">{props.certificate.name}</h5>
                     {
-                        props.owner===true && 
-                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
-                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
-                        </Button>
+                        props.owner===true &&
+                        <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </IconButton>
                     }
+                    
                     <Modal
                         centered
                         scrollable
@@ -83,7 +92,7 @@ function EductaionCard(props) {
                         toggle={handleClickOpen}
                     >
                         <ModalHeader toggle={handleClose}>
-                            Edit license or certification
+                            Modal title
                         </ModalHeader>
                         <ModalBody>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
@@ -174,6 +183,13 @@ function EductaionCard(props) {
                         </ModalBody>
                          <ModalFooter>
                             <Button
+                                style={{marginRight:20}}
+                                variant="contained"
+                                color="primary"
+                                onClick={(e)=>handleDelete(e)}>
+                               Delete
+                            </Button>
+                            <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={(e)=>handleSubmit(e)}>
@@ -182,16 +198,11 @@ function EductaionCard(props) {
                             </ModalFooter>
                     </Modal>
                 </div>
-                {props.profile==null?null:
-                    props.profile.Certification.map((certificate)=>{
-                        return(
-                            <CertificateCard owner={props.owner} certificate={certificate} editCertification={props.editCertification} deleteCertification={props.deleteCertification}/>
-                        )
-                    })
-                }
+                <div>{props.certificate.organization}</div>
+                <div>{new Date(props.certificate.issueDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>
             </div>
         </div>
     )
 }
 
-export default EductaionCard
+export default SchoolCard

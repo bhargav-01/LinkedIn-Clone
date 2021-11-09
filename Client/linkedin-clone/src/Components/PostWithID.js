@@ -12,7 +12,7 @@ import {makeStyles,ThemeProvider,createTheme} from '@material-ui/core/styles'
 import { Link,FormControl,InputLabel } from '@material-ui/core';
 import {Card,CardImg,CardBody,CardText} from 'reactstrap';
 import {BiLike} from 'react-icons/bi';
-import {BiComment} from 'react-icons/bi';
+import {BiCommentDetail} from 'react-icons/bi';
 import './PostWithID.css';
 function PostWithID(props)
 {
@@ -40,7 +40,7 @@ function PostWithID(props)
                         </div>
                         <div className="col-6" style={{textAlign:'center'}}>
                             
-                            <Button style={{textTransform: 'none'}}> <BiComment className="m-2" style={{fontSize: "25px" }}/></Button>
+                            <Button style={{textTransform: 'none'}}> <BiCommentDetail className="m-2" style={{fontSize: "25px" }}/></Button>
                            
                         </div>
             </div>

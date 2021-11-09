@@ -8,20 +8,27 @@ import {MdOndemandVideo} from 'react-icons/md';
 import {BsCalendarEvent} from 'react-icons/bs';
 import {RiArticleLine} from 'react-icons/ri';
 import { IconContext } from "react-icons";
-import {BsCameraVideoFill} from 'react-icons/bs';
+// import {BsCameraVideoFill} from 'react-icons/bs';
+import {FiVideo} from 'react-icons/fi'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 import axios from 'axios';
 import './PostWithID.css';
+import user from '../assets/images/user.png'
+import banner from '../assets/images/4820571.jpg'
+
 function Home(props)
 {
-    
-
     const [showModal, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [profile,setProfile]=useState(null);
+    const token=localStorage.getItem('token');
     const instance = axios.create({
         baseURL: 'http://localhost:3001'
+    });
+    const profileAPI = axios.create({
+        baseURL: 'http://localhost:3001/users/',
+        headers: {'Authorization': `Bearer ${token}`}
     });
 
     const [allposts,setPosts]=useState(null)
@@ -30,9 +37,13 @@ function Home(props)
         instance.get('/posts')
         .then(response=>{
             console.log(response.data)
-            
             setPosts(response.data);
-            
+        });
+
+        profileAPI.get('/profile')
+        .then(response=>{
+            console.log(response.data)
+            setProfile(response.data.profile);
         });
         console.log(allposts);
     },[])
@@ -40,7 +51,22 @@ function Home(props)
     return(
         
         <div className="row">
-            <div className="col-3 md-3">Profile Part</div>
+            <div className="col-3 md-3">
+                <div className="card profile-card">
+                    <div className="image-conatiner">
+                        <div className="banner">
+                            <img  className="banner-img" src={(profile==null||profile.background_image==="")?banner:profile.background_image} alt="bhargav"></img>
+                        </div>
+                        <div className="profile">
+                            <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" className="profile-img" />
+                        </div>
+                    </div>
+                    <div className="card-body" style={{textAlign:"center"}}>
+                        <a href="profile" className="profile-link"><h5 className="card-title">{profile==null?null:profile.firstname+" "+profile.lastname}</h5></a>
+                        <p className="card-text">{profile==null?null:profile.headline}</p>
+                    </div>
+                </div>
+            </div>
             <div className="col-8 md-8">
                 <Card>
                 
@@ -48,22 +74,22 @@ function Home(props)
                    
                     <div className="row">
                         <div className="col-3">
-                            <IconContext.Provider value={{ color: "blue", className: "global-class-name", fontSize: "25px"}}>
+                            <IconContext.Provider value={{ color: "blue", className: "global-className-name", fontSize: "25px"}}>
                             <Button style={{textTransform: 'none'}}> <HiOutlinePhotograph className="m-2" style={{fontSize: "25px" }}/>   Photo</Button>
                             </IconContext.Provider>
                         </div>
                         <div className="col-3">
-                            <IconContext.Provider value={{ color: "green", className: "global-class-name", fontSize: "25px" }}>
+                            <IconContext.Provider value={{ color: "green", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><MdOndemandVideo className="m-2" style={{fontSize: "25px" }}/>   Video</Button>
                             </IconContext.Provider>
                         </div>
                         <div className="col-3">
-                            <IconContext.Provider value={{ color: "orange", className: "global-class-name", fontSize: "25px" }}>
+                            <IconContext.Provider value={{ color: "orange", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><BsCalendarEvent className="m-2" style={{fontSize: "25px" }}/>   Event</Button>
                             </IconContext.Provider>
                         </div>
                         <div className="col-3">
-                            <IconContext.Provider value={{ color: "red", className: "global-class-name", fontSize: "25px" }}>
+                            <IconContext.Provider value={{ color: "red", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><RiArticleLine className="m-2" style={{fontSize: "25px" }}/>   Write Article</Button>
                             </IconContext.Provider>
                         </div>
@@ -97,12 +123,12 @@ function Home(props)
                 <div className="row">
                     <div className="col-5">
                     <Button style={{align:'center'}}>
-                        <HiOutlinePhotograph></HiOutlinePhotograph>
+                        <HiOutlinePhotograph style={{fontSize:"30px"}}></HiOutlinePhotograph>
                     </Button>
                     </div>
                     <div className="col-5">
                     <Button>
-                        <BsCameraVideoFill></BsCameraVideoFill>
+                        <FiVideo style={{fontSize:"30px"}}/>
                     </Button>
                     </div>
                     <div className="col-2">

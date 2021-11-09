@@ -5,18 +5,21 @@ import {DialogTitle,Dialog,DialogContent,Button,DialogActions,DialogContentText}
 import {BsCameraFill} from 'react-icons/bs'
 import ImageEditor from './ImageEditor'
 import './profile.css'
-import NameModal from './modals/NameModal'
+import NameModal from './Cards/NameModal'
 import { initializeApp } from "firebase/app";
 import firebaseConfig  from '../../firebaseIni'
 import { getStorage,ref,uploadBytes,getDownloadURL } from "firebase/storage";
 import {MdModeEditOutline} from 'react-icons/md'
 import {BsPlusLg} from 'react-icons/bs'
 import {IoClose} from 'react-icons/io5'
-import EducationCard from './modals/EducationCard'
-import CertificationCard from './modals/CertificationCard'
-import ExperienceCard from './modals/ExperienceCard'
-import AccomplishmentsCard from './modals/AccomplishmentsCard'
+import EducationCard from './Cards/Eductaion/EducationCard'
+import CertificationCard from './Cards/Certification/CertificationCard'
+import ExperienceCard from './Cards/Experience/ExperienceCard'
+import AccomplishmentsCard from './Cards/Accomplishment/AccomplishmentsCard'
 import { useSnackbar } from 'notistack';
+import banner from '../../assets/images/4820571.jpg'
+import user from '../../assets/images/user.png'
+import success from '../../assets/images/success.png'
 
 const axios=require('axios');
 
@@ -118,7 +121,7 @@ function Profile(props) {
 
     useEffect(() => {
         // alert(props.match.params.id);
-        if(props.match.params.id==='profile')
+        if(props.match.params.id==='profile' || props.match.params.id===undefined)
         {
             instance.get('/profile')
             .then(response=>{
@@ -632,7 +635,7 @@ function Profile(props) {
             <div className="card profile_card">
                 <div className="image_conatiner">
                     <div className="banner">
-                        <img  className="banner_img" src={(profile==null||profile.background_image==="")?'assets/images/4820571.jpg':profile.background_image} alt="bhargav"></img>
+                        <img  className="banner_img" src={(profile==null||profile.background_image==="")?banner:profile.background_image} alt="bhargav"></img>
                     </div>
                     {owner===true && 
                         <div className="camera">
@@ -647,7 +650,7 @@ function Profile(props) {
                                     Add background photo
                                 </BootstrapDialogTitle>    
                                 <DialogContent dividers style={{textAlign:"center"}}>
-                                    <img src='assets/images/success.png' alt="Profile" style={{width:"340px"}}/>
+                                    <img src={success} alt="Profile" style={{width:"340px"}}/>
                                     <h5>Showcase your personality, interests, team moments or notable milestones</h5>
                                 </DialogContent>
                                 <DialogActions>
@@ -662,7 +665,7 @@ function Profile(props) {
                         </div>
                     }
                     <div className="profile">
-                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" className="profile_img" onClick={handleClickOpenImage}/>
+                        <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" className="profile_img" onClick={handleClickOpenImage}/>
                         <BootstrapDialog
                             onClose={handleCloseImage}
                             aria-labelledby="customized-dialog-title"
@@ -674,7 +677,7 @@ function Profile(props) {
                                 <div>
                                      <DialogContent dividers style={{textAlign:"center"}}>
                                         <h5>{profile==null?"":profile.firstname}, keep your profile fresh!</h5>
-                                        <img src={(profile==null||profile.profile_image==="")?'assets/images/4820571.jpg':profile.profile_image} alt="Profile" style={{width:"230px","border-radius":"50%"}}/>
+                                        <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" style={{width:"230px","border-radius":"50%"}}/>
                                         <p>Take or upload a photo. Then crop, filter and adjust it to perfection.</p>
                                     </DialogContent>
                                     <DialogActions>

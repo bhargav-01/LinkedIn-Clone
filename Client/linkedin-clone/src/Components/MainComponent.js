@@ -9,23 +9,23 @@ import Profile from './Profile/ProfileComponent'
 import PostWithID from './PostWithID';
 import Home from './HomeComponent';
 function Main(props) {
-    const Home= () => {
-        <Home posts={props.posts}/>
-    }
+    // const Home= () => {
+    //     <Home posts={props.posts}/>
+    // }
     
     return (
             <div>
                 <Switch>
-                    <Route path='/SignUp' component={SignUp}/>
-                    <Route path='/Login' component={Login}/>
-                    <Route path='/Ldetails' component={LocationDetails}/>
-                    <Route path='/Jdetails' component={JobDetails}/>
-                    <Route path='/:id' component={Profile}/>
+                    <Route path='/signUp' component={SignUp}/>
+                    <Route path='/login' component={Login}/>
+                    <Route path='/ldetails' component={LocationDetails}/>
+                    <Route path='/jdetails' component={JobDetails}/>
+                    <Route path='/profile/:id' component={Profile}/>
                     <Route exact path='/profile' component={Profile}/>
-                    <Route path='/Sdetails' component={StudyDetails}/>
+                    <Route path='/sdetails' component={StudyDetails}/>
                     <Route path='/post' component={PostWithID}/>
                     <Route path='/home' component={Home}/>
-                    <Redirect to="/SignUp" />
+                    <Redirect to="/signUp" />
                 </Switch>
             </div>
     )
