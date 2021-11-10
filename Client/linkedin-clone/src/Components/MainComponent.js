@@ -8,6 +8,7 @@ import StudyDetails from './Login/StudentComponent'
 import Profile from './Profile/ProfileComponent'
 import PostWithID from './PostWithID';
 import Home from './HomeComponent';
+import Header from './HeaderComponent';
 function Main(props) {
     // const Home= () => {
     //     <Home posts={props.posts}/>
@@ -15,6 +16,7 @@ function Main(props) {
     
     return (
             <div>
+                <Header />
                 <Switch>
                     <Route path='/signUp' component={SignUp}/>
                     <Route path='/login' component={Login}/>

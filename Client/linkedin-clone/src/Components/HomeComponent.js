@@ -67,7 +67,7 @@ function Home(props)
                 </div>
             </div>
             <div className="col-12 col-md-5">
-                <Card>
+                <Card className="mt-3">
                 
                     <Button onClick={handleShow}><textarea placeholder="Start a post" style={{width:"1000px"}}></textarea></Button>
                    
