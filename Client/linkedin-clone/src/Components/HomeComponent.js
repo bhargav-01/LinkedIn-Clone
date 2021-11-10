@@ -39,7 +39,7 @@ function Home(props)
 
     return(
         
-        <div className="row">
+        <div className="row mt-3">
             <div className="col-3 md-3">Profile Part</div>
             <div className="col-8 md-8">
                 <Card>

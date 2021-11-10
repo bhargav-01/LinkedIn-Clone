@@ -2,3 +2,13 @@
     width: 30px;
     border-radius: 50%;
 }
+
+.menu{
+    visibility: hidden;
+}
+
+@media (max-width: 768px) {
+    .menu{
+       visibility: visible;
+    }
+}
