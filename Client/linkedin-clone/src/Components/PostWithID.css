@@ -12,3 +12,54 @@
        visibility: visible;
     }
 }
+.banner-img {
+    width: -webkit-fill-available;
+    box-shadow: 0px 20px 20px 0px #e1e1e1;
+    border-radius: 20px 20px 0px 0px;
+    height: 105px;
+}
+.row{
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+}
+.image-conatiner {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.profile-card{
+    box-shadow: 0px 1px 20px 10px #e4e4e5;
+    margin: 10px 0px 0px 10px;
+    object-fit: cover;
+    border-radius: 20px;
+
+}
+.profile-img-container {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: -webkit-fill-available;
+    top: 55px;
+}
+
+.profile-img {
+    cursor: pointer;
+    width: 80px;
+    box-shadow: -2px 4px 20px 0px #c7c7c7;
+    border: 3px solid white;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.profile-link{
+    text-decoration: none;
+    color: black;
+}
+.profile-link:hover {
+    text-decoration: underline;
+    color: #696767;
+}

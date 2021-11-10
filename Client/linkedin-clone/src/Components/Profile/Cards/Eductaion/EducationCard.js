@@ -92,9 +92,12 @@ function EducationCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">Education</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
-                        <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    {
+                        props.owner===true &&
+                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </Button>
+                    }
                     <Modal
                         centered
                         scrollable
@@ -237,7 +240,7 @@ function EducationCard(props) {
                 {props.profile==null?null:
                     props.profile.Education.map((school)=>{
                         return(
-                            <SchoolCard school={school} editEducation={props.editEducation} deleteEducation={props.deleteEducation}/>
+                            <SchoolCard owner={props.owner} school={school} editEducation={props.editEducation} deleteEducation={props.deleteEducation}/>
                         )
                     })
                 }

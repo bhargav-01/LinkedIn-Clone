@@ -1,10 +1,11 @@
-import React,{useState,Fragment} from 'react'
+import React,{useState} from 'react'
 import Box from '@material-ui/core/Box';
-import {TextField,Button,FormControl,MenuItem,Select,InputLabel,FormControlLabel,Checkbox,IconButton} from '@material-ui/core';
+import {TextField,Button,FormControl,MenuItem,Select,InputLabel,FormControlLabel,Checkbox} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
-import {MdModeEditOutline} from 'react-icons/md'
-// import './education.css'
+import {BsPlusLg} from 'react-icons/bs'
+import '../Eductaion/education.css'
+import JobCard from './JobCard'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 
 
@@ -43,16 +44,15 @@ const useStyles = makeStyles((theme) =>({
  
 function ExperienceCard(props) {
     const classes = useStyles(); 
-    const id = props.experience._id;
     const [open, setOpen] = useState(false);
-    const [present, setPresent] = useState(props.experience.endDate==="Present");
-    const [title, setTitle] = useState(props.experience.title);
-    const [type, setType] =useState(props.experience.employment_type);
-    const [name, setName] =useState(props.experience.companyname);
-    const [location, setLocation] =useState(props.experience.location);
-    const [startDate, setStartDate] = useState(props.experience.startDate);
-    const [endDate, setEndDate] = useState(props.experience.endDate);
-    const [description, setDescription] = useState(props.experience.description);
+    const [present, setPresent] = useState(false);
+    const [title, setTitle] = useState('');
+    const [type, setType] =useState('');
+    const [name, setName] =useState('');
+    const [location, setLocation] =useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [description, setDescription] = useState();
    
     const handleClickOpen = () => {
         setOpen(true);
@@ -63,32 +63,28 @@ function ExperienceCard(props) {
     };
     const handleChange = (event) => {
         setPresent(event.target.checked);
-    };
+      };
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        alert("dsa")
         if(present==="true")
-            props.editExperience(id,title,type,name,location,startDate,"Present",description);
+            props.submitExperience(title,type,name,location,startDate,"Present",description);
         else
-            props.editExperience(id,title,type,name,location,startDate,endDate,description);
-        setOpen(false)
-    }
-
-    const handleDelete=(e)=>{
-        // alert("sss");
-        e.preventDefault();
-        props.deleteExperience(id);
+            props.submitExperience(title,type,name,location,startDate,endDate,description);
         setOpen(false)
     }
     return (
-        <div className="card school-card">
+        <div className="card profile_card">
             <div className="card-body">
                 <div className="name-container">
-                    <h5 class="card-title">{props.experience.title}</h5>
-                    <IconButton onClick={handleClickOpen} sx={{width:"15px"}}>
-                        <MdModeEditOutline style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </IconButton>
+                    <h5 class="card-title">Experience</h5>
+                    {
+                        props.owner===true &&  
+                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </Button>
+                    }
+                   
                     <Modal
                         centered
                         scrollable
@@ -97,7 +93,7 @@ function ExperienceCard(props) {
                         toggle={handleClickOpen}
                     >
                         <ModalHeader toggle={handleClose}>
-                            Edit experiences
+                            Add experience
                         </ModalHeader>
                         <ModalBody>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
@@ -119,7 +115,13 @@ function ExperienceCard(props) {
                                     onChange={e => setTitle(e.target.value)} />
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'flex-end',marginTop:30 }}>
-                                <FormControl variant="outlined" className={classes.root} fullWidth>
+                                <FormControl variant="outlined" className={classes.root} 
+                                    InputLabelProps={{
+                                            classes: {
+                                                root: classes.label,
+                                            }
+                                    }}
+                                    fullWidth>
                                     <InputLabel id="demo-simple-select-label"
                                         InputLabelProps={{
                                             classes: {
@@ -216,7 +218,7 @@ function ExperienceCard(props) {
                                         inputVariant="outlined"
                                         variant="inline"
                                         InputAdornmentProps={{ position: "start" }}
-                                        value={endDate==="Present"?new Date():endDate}
+                                        value={endDate}
                                         onChange={setEndDate}
                                     /> 
                                 </div>
@@ -227,32 +229,27 @@ function ExperienceCard(props) {
                                     id="exampleFormControlTextarea2 " 
                                     rows="3"
                                     value={description}
-                                    style={{fontSize:'1.2rem'}}
+                                    style={{fontSize:'1.2rem',border: "1px solid black"}}
                                     onChange={(e)=>setDescription(e.target.value)}/>
                             </Box>
                         </ModalBody>
                          <ModalFooter>
-                            <Button
-                                style={{marginRight:20}}
-                                variant="contained"
-                                color="primary"
-                                onClick={(e)=>handleDelete(e)}>
-                               Delete
-                            </Button>
                             <Button
                                 variant="contained"
                                 color="primary"
                                 onClick={(e)=>handleSubmit(e)}>
                                Save
                             </Button>
-                          </ModalFooter>
+                            </ModalFooter>
                     </Modal>
                 </div>
-                <div>{props.experience.companyname+", "+props.experience.employment_type}</div>
-                {props.experience.endDate!=="Present" && <div>{new Date(props.experience.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+new Date(props.experience.endDate).toLocaleString('en-us',{month:'short', year:'numeric'})}</div>}
-                {props.experience.endDate==="Present" && <div>{new Date(props.experience.startDate).toLocaleString('en-us',{month:'short', year:'numeric'})+"-"+props.experience.endDate}</div>}
-                {props.experience.location!==null && <div>{props.experience.location}</div>}
-                <div style={{marginTop:5}}>{description!==""?props.experience.description.split('\n').map((item, key) => {return <Fragment key={key}>{item}<br/></Fragment>}):null}</div>
+                {props.profile==null?null:
+                    props.profile.Experience.map((experience)=>{
+                        return(
+                            <JobCard owner={props.owner} experience={experience} editExperience={props.editExperience} deleteExperience={props.deleteExperience}/>
+                        )
+                    })
+                }
             </div>
         </div>
     )

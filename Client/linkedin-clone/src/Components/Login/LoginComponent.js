@@ -11,6 +11,7 @@ import {MdVisibility,MdVisibilityOff} from 'react-icons/md'
 import NameDetails from './LocationComponent'
 import {makeStyles,ThemeProvider,createTheme} from '@material-ui/core/styles'
 import { Link,FormControl,InputLabel,OutlinedInput } from '@material-ui/core';
+import logo from '../../assets/images/Linkedin_logo.png'
 
 const axios=require('axios');
 const useStyles = makeStyles((theme) =>({
@@ -101,7 +102,7 @@ function Login(props) {
             <div className="canvas">
                 <div className="header">
                     <div>
-                         <img src='assets/images/Linkedin_logo.png' alt="Linkedin" className="logo"></img>
+                         <img src={logo} alt="Linkedin" className="logo"></img>
                     </div>
                 </div>
                 <div className="login-container">

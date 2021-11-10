@@ -4,7 +4,7 @@ import {TextField,Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles'
 import {DatePicker} from '@material-ui/pickers'
 import {BsPlusLg} from 'react-icons/bs'
-import './education.css'
+import '../Eductaion/education.css'
 import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
 import CertificateCard from './CertificateCard'
 
@@ -69,9 +69,12 @@ function EductaionCard(props) {
             <div className="card-body">
                 <div className="name-container">
                     <h5 class="card-title">License or Certification</h5>
-                    <Button onClick={handleClickOpen} sx={{width:"15px"}}>
-                        <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
-                    </Button>
+                    {
+                        props.owner===true && 
+                        <Button onClick={handleClickOpen} sx={{width:"15px"}}>
+                            <BsPlusLg style={{fontSize: "22px",color: "darkslategrey"}}/>
+                        </Button>
+                    }
                     <Modal
                         centered
                         scrollable
@@ -182,7 +185,7 @@ function EductaionCard(props) {
                 {props.profile==null?null:
                     props.profile.Certification.map((certificate)=>{
                         return(
-                            <CertificateCard certificate={certificate} editCertification={props.editCertification} deleteCertification={props.deleteCertification}/>
+                            <CertificateCard owner={props.owner} certificate={certificate} editCertification={props.editCertification} deleteCertification={props.deleteCertification}/>
                         )
                     })
                 }

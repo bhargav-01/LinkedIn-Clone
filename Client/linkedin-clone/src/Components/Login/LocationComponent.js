@@ -3,6 +3,8 @@ import './login.css'
 import Box from '@material-ui/core/Box';
 import { useHistory } from "react-router-dom";
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import logo from '../../assets/images/Linkedin_logo.png'
+
 var axios=require('axios');
 
 function LocationDetails() {
@@ -32,7 +34,7 @@ function LocationDetails() {
         <div className="canvas">
             <div className="header">
                 <div>
-                    <img src='assets/images/Linkedin_logo.png' alt="Linkedin" className="logo"></img>
+                    <img src={logo} alt="Linkedin" className="logo"></img>
                 </div>
             </div>
             <div className="login-container">
