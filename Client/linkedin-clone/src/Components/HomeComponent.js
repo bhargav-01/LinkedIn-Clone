@@ -67,9 +67,8 @@ function Home(props)
                 </div>
             </div>
             <div className="col-12 col-md-5">
-                <Card>
-                
-                    <Button onClick={handleShow}><textarea placeholder="Start a post" style={{width:"1000px"}}></textarea></Button>
+                <Card className="post-card" style={{padding:"10px 0px"}}>
+                    <Button onClick={handleShow}><input class="form-control input-button" placeholder="Start a post"></input></Button>
                    
                     <div className="row">
                         <div className="col-md-3">

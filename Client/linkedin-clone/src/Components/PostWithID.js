@@ -13,15 +13,13 @@ function PostWithID(props)
     };
 
     return(
-        <Card style={{"box-shadow": "0px 0px 20px 10px #9993934f",
-        "margin-top": "10px"
-    }}>
+        <Card className="post-card">
             <CardText>
             <img className="p-img m-2" src="home.jpeg"/>
             {/* {props.post.author.firstname} {props.post.author.lastname} */}
             </CardText>
             <CardText>{props.post.description}</CardText>
-            <CardImg src="home.jpeg" style={{height:"250px"}}></CardImg>
+            <CardImg src="home.jpeg" style={{height:"300px",borderRadius:"20px"}}></CardImg>
             <div className="row">
                         <div className="col-6" style={{textAlign:'center'}}>
                         

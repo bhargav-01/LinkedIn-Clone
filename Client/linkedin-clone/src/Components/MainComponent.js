@@ -16,7 +16,7 @@ function Main(props) {
     return (
             <div>
                 <Switch>
-                    <Route path='/signUp' component={SignUp}/>
+                    <Route path='/signup' component={SignUp}/>
                     <Route path='/login' component={Login}/>
                     <Route path='/ldetails' component={LocationDetails}/>
                     <Route path='/jdetails' component={JobDetails}/>
@@ -25,7 +25,7 @@ function Main(props) {
                     <Route path='/sdetails' component={StudyDetails}/>
                     <Route path='/post' component={PostWithID}/>
                     <Route path='/home' component={Home}/>
-                    <Redirect to="/signUp" />
+                    <Redirect to="/signup" />
                 </Switch>
             </div>
     )
