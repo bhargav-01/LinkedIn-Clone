@@ -6,10 +6,18 @@
     width: -webkit-fill-available;
     box-shadow: 0px 20px 20px 0px #e1e1e1;
     border-radius: 20px 20px 0px 0px;
+    height: 105px;
+}
+.row{
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
 }
 .image-conatiner {
     position: relative;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 .profile-card{
@@ -19,11 +27,13 @@
     border-radius: 20px;
 
 }
-.profile {
-    top: 44px;
-    left: 71px;
+.profile-img-container {
     position: absolute;
-    z-index: 20;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: -webkit-fill-available;
+    top: 55px;
 }
 
 .profile-img {

@@ -8,9 +8,8 @@ import {MdOndemandVideo} from 'react-icons/md';
 import {BsCalendarEvent} from 'react-icons/bs';
 import {RiArticleLine} from 'react-icons/ri';
 import { IconContext } from "react-icons";
-// import {BsCameraVideoFill} from 'react-icons/bs';
 import {FiVideo} from 'react-icons/fi'
-import {Modal,ModalHeader,ModalBody,ModalFooter} from 'reactstrap'
+import {Modal,ModalHeader,ModalBody} from 'reactstrap'
 import axios from 'axios';
 import './PostWithID.css';
 import user from '../assets/images/user.png'
@@ -50,14 +49,14 @@ function Home(props)
 
     return(
         
-        <div className="row">
-            <div className="col-3 md-3">
+        <div className="row justify-content-md-center">
+            <div className="col-0 col-md-3">
                 <div className="card profile-card">
                     <div className="image-conatiner">
                         <div className="banner">
                             <img  className="banner-img" src={(profile==null||profile.background_image==="")?banner:profile.background_image} alt="bhargav"></img>
                         </div>
-                        <div className="profile">
+                        <div className="profile-img-container">
                             <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" className="profile-img" />
                         </div>
                     </div>
@@ -67,28 +66,28 @@ function Home(props)
                     </div>
                 </div>
             </div>
-            <div className="col-8 md-8">
+            <div className="col-12 col-md-5">
                 <Card>
                 
                     <Button onClick={handleShow}><textarea placeholder="Start a post" style={{width:"1000px"}}></textarea></Button>
                    
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-md-3">
                             <IconContext.Provider value={{ color: "blue", className: "global-className-name", fontSize: "25px"}}>
                             <Button style={{textTransform: 'none'}}> <HiOutlinePhotograph className="m-2" style={{fontSize: "25px" }}/>   Photo</Button>
                             </IconContext.Provider>
                         </div>
-                        <div className="col-3">
+                        <div className="col-md-3">
                             <IconContext.Provider value={{ color: "green", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><MdOndemandVideo className="m-2" style={{fontSize: "25px" }}/>   Video</Button>
                             </IconContext.Provider>
                         </div>
-                        <div className="col-3">
+                        <div className="col-md-3">
                             <IconContext.Provider value={{ color: "orange", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><BsCalendarEvent className="m-2" style={{fontSize: "25px" }}/>   Event</Button>
                             </IconContext.Provider>
                         </div>
-                        <div className="col-3">
+                        <div className="col-md-3">
                             <IconContext.Provider value={{ color: "red", className: "global-className-name", fontSize: "25px" }}>
                             <Button style={{textTransform: 'none'}}><RiArticleLine className="m-2" style={{fontSize: "25px" }}/>   Write Article</Button>
                             </IconContext.Provider>
@@ -108,7 +107,7 @@ function Home(props)
                 })}
 
             </div>
-            
+            <div  className="col-0 col-md-3"></div>
 
             <Modal isOpen={showModal} toggle={handleShow}>
                 <ModalHeader toggle={handleClose}>
