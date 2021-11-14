@@ -40,7 +40,7 @@ class ImageEditor extends React.Component {
     }
 
     onSubmit=async(event)=>{
-        console.log("dsdsdswdswdwdwdwdqsdwqdwdwq")
+        // console.log("dsdsdswdswdwdwdwdqsdwqdwdwq")
         event.preventDefault();
         try {
             const croppedImage = await getCroppedImg(

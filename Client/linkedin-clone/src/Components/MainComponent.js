@@ -17,18 +17,21 @@ function Main(props) {
     return (
             <div>
                 <Header/>
-                <Switch>
-                    <Route path='/signup' component={SignUp}/>
-                    <Route path='/login' component={Login}/>
-                    <Route path='/ldetails' component={LocationDetails}/>
-                    <Route path='/jdetails' component={JobDetails}/>
-                    <Route path='/profile/:id' component={Profile}/>
-                    <Route exact path='/profile' component={Profile}/>
-                    <Route path='/sdetails' component={StudyDetails}/>
-                    <Route path='/post' component={PostWithID}/>
-                    <Route path='/home' component={Home}/>
-                    <Redirect to="/signup" />
-                </Switch>
+                <div style={{"padding-top": "80px"}}>
+                    <Switch>
+                        <Route path='/signup' component={SignUp}/>
+                        <Route path='/login' component={Login}/>
+                        <Route path='/ldetails' component={LocationDetails}/>
+                        <Route path='/jdetails' component={JobDetails}/>
+                        <Route path='/profile/:id' component={Profile}/>
+                        <Route exact path='/profile' component={Profile}/>
+                        <Route path='/sdetails' component={StudyDetails}/>
+                        <Route path='/post' component={PostWithID}/>
+                        <Route path='/home' component={Home}/>
+                        <Redirect to="/signup" />
+                    </Switch>
+                </div>
+               
             </div>
     )
 }

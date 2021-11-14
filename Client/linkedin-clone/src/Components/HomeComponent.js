@@ -20,20 +20,11 @@ import user from '../assets/images/user.png'
 import banner from '../assets/images/4820571.jpg'
 
 
-function readFile(file) {
-    return new Promise((resolve) => {
-        const reader = new FileReader()
-        reader.addEventListener('load', () => resolve(reader.result), false)
-        reader.readAsDataURL(file)
-    })
-}
-
-
-
 function Home(props)
 {
 
     const [desc,setdesc]=useState('');
+    const [image,setImage]=useState('');
 
     const firebaseApp = initializeApp(firebaseConfig);
     const storage = getStorage(firebaseApp);
@@ -45,19 +36,28 @@ function Home(props)
     const [showPhotoModal, setPhotoShow] = useState(false);
     const handlePhotoClose = () => setPhotoShow(false);
     const handlePhotoShow = () => setPhotoShow(true);
-    var storageRef;
-    const submitPostImage=(file)=>{
+    
+    const submitPostImage=(event)=>{
+        event.preventDefault();
         const now= new Date();
-        storageRef = ref(storage,`${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getTime()}.jpg`);
-        // console.log(event.target.files[0]);
-        uploadBytes(storageRef,file)
-        getDownloadURL(storageRef)
-        
+        const storageRef = ref(storage,`${now.getFullYear()}${now.getMonth()}${now.getDate()}${now.getTime()}.jpg`);
+        console.log(event.target.files[0]);
+        uploadBytes(storageRef,event.target.files[0])
+        .then((snapshot) => {
+            getDownloadURL(storageRef)
+            .then((url) => {
+                console.log(url);
+                setImage(url); 
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     }
     const UploadPost=(e)=>{
         e.preventDefault();
         console.log(desc);
-        axios.post('http://localhost:3001/post',{description:desc,image:storageRef},{
+        axios.post('http://localhost:3001/posts',{description:desc,image:image},{
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -94,17 +94,10 @@ function Home(props)
        console.log(profile)
     },[])
     
-    const onChangImage=async(event)=>{
-        event.preventDefault();
-        let imageDataUrl = await readFile(event.target.files[0]);
-        // setProfileImage(imageDataUrl)
-    }
-
-
-
+  
     return(
         
-        <div className="row justify-content-md-center" style={{"padding-top": "75px"}}>
+        <div className="row justify-content-md-center">
             <div className="col-0 col-md-3">
                 <div className="card profile-card">
                     <div className="image-conatiner">
@@ -168,7 +161,7 @@ function Home(props)
                     Create a post
                 </ModalHeader>
                 <ModalBody>
-                <img className="p-img m-2" src={profile.profile_image}/> {profile.firstname} {profile.lastname}<br></br>
+                <img className="p-img m-2" src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="profile"/> {profile==null?"":profile.firstname} {profile==null?"":profile.lastname}<br></br>
                 <textarea style={{width:"450px",border:"none",outline:"none",height:"250px"}} placeholder="What do you want to talk about?" onChange={e => setdesc(e.target.value)}></textarea><br></br>
                 Add hashtag<br></br>
                 
@@ -197,23 +190,21 @@ function Home(props)
                     Upload image to share
                 </ModalHeader>
                 <ModalBody>
-                 
-                                <div>
-                                     <DialogContent dividers style={{textAlign:"center"}}>
-                                        
-                                        <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" style={{width:"230px","border-radius":"50%"}}/>
-                                        <p>Upload a photo from your device</p>
-                                    </DialogContent>
-                                    <DialogActions>
-                                        <label htmlFor="contained-button-file">
-                                            <Input accept="image/*" id="contained-button-file" type="file" onChange={(e)=>onChangImage(e)}/>
-                                            <Button color="primary" style={{textTransform:'none'}} variant="contained" component="span" onClick={submitPostImage}>
-                                                Upload Image
-                                            </Button>
-                                        </label>
-                                    </DialogActions>
-                                </div>
+                    <div>
+                            <DialogContent  style={{textAlign:"center"}}>
                             
+                            <img src={(profile==null||profile.profile_image==="")?user:profile.profile_image} alt="Profile" style={{width:"230px","border-radius":"50%"}}/>
+                            <p>Upload a photo from your device</p>
+                        </DialogContent>
+                        <DialogActions>
+                            <label htmlFor="contained-button-file">
+                                <Input accept="image/*" id="contained-button-file" type="file" onChange={(e)=>submitPostImage(e)}/>
+                                <Button color="primary" style={{textTransform:'none'}} variant="contained" component="span" >
+                                    Upload Image
+                                </Button>
+                            </label>
+                        </DialogActions>
+                    </div> 
                 </ModalBody>
             </Modal>
         </div>

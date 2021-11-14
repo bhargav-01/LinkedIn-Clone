@@ -10,7 +10,7 @@ var User = new Schema({
   },
   profile_image:{
     type: String,
-    default: "",
+    default: "https://firebasestorage.googleapis.com/v0/b/linkedin-b23aa.appspot.com/o/user.png?alt=media&token=2ab5a16d-f61a-4c84-89d9-b423f5836a62",
   },
   background_image:{
     type: String,

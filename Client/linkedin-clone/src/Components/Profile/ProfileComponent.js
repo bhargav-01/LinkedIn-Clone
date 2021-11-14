@@ -647,7 +647,7 @@ function Profile(props) {
                                 aria-labelledby="customized-dialog-title"
                                 open={open}>
                                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                                    Add background photo
+                                    Add background image
                                 </BootstrapDialogTitle>    
                                 <DialogContent dividers style={{textAlign:"center"}}>
                                     <img src={success} alt="Profile" style={{width:"340px"}}/>
@@ -655,7 +655,7 @@ function Profile(props) {
                                 </DialogContent>
                                 <DialogActions>
                                     <label htmlFor="contained-button-file">
-                                        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={(e)=>handleSubmit(e)}/>
+                                        <Input accept="image/*" id="contained-button-file" type="file" onChange={(e)=>handleSubmit(e)}/>
                                         <Button color="primary" style={{textTransform:'none'}} variant="contained" component="span">
                                             Edit profile Background
                                         </Button>

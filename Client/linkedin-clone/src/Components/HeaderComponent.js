@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useEffect} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,12 +15,15 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Avatar from '@mui/material/Avatar';
 import {HiHome} from 'react-icons/hi';
 import {Button} from '@material-ui/core';
 import {MdNotifications} from 'react-icons/md';
 import {CgProfile} from 'react-icons/cg';
 import {NavLink} from 'react-router-dom';
 import './PostWithID.css'; 
+import axios from 'axios';
+import user from '../assets/images/user.png'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,7 +67,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -88,6 +91,22 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const [profile,setProfile]=React.useState(null);
+  const token=localStorage.getItem('token');
+  const profileAPI = axios.create({
+      baseURL: 'http://localhost:3001/users/',
+      headers: {'Authorization': `Bearer ${token}`}
+  });
+
+  useEffect(() => {
+    profileAPI.get('/profile')
+    .then(response=>{
+        console.log(response.data)
+          setProfile(response.data.profile);
+      });
+    console.log(profile)
+  },[])
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -103,8 +122,7 @@ export default function PrimarySearchAppBar() {
         horizontal: 'right',
       }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
+      onClose={handleMenuClose}>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
@@ -148,7 +166,7 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p className="m-2">Notifications</p>
       </MenuItem><br/>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -157,7 +175,7 @@ export default function PrimarySearchAppBar() {
           color="inherit"
           className="m-3"
         >
-          <AccountCircle />
+          <Avatar alt="Profile" src={profile==null?user:profile.profile_image} />
         </IconButton>
         <p className="m-2">Profile</p>
       </MenuItem>
@@ -199,12 +217,18 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Button><Badge badgeContent={4} color="error"><HiHome style={{color:"black",fontSize: "25px"}}/></Badge></Button>
+            <Button><HiHome style={{color:"black",fontSize: "25px"}}/></Button>
             <Button><Badge badgeContent={4} color="error"><MdNotifications style={{color:"black",fontSize: "25px"}}/></Badge></Button>
-            <Button><Badge badgeContent={4} color="error"><AccountCircle style={{color:"black",fontSize: "25px"}}/></Badge></Button>
-
-
-            
+            <Button 
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+              onClick={handleProfileMenuOpen}>
+                <Avatar alt="Profile" src={profile==null?user:profile.profile_image} />
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
