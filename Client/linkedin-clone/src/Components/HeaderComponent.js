@@ -165,7 +165,7 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} style={{"position": "fixed","z-index": "1000","width": "-webkit-fill-available"}}>
       <AppBar position="static">
         <Toolbar style={{backgroundColor:"white"}}>
           <IconButton

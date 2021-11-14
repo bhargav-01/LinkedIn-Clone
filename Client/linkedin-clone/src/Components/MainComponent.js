@@ -16,7 +16,7 @@ function Main(props) {
     
     return (
             <div>
-                <Header />
+                <Header/>
                 <Switch>
                     <Route path='/signup' component={SignUp}/>
                     <Route path='/login' component={Login}/>

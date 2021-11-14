@@ -27,7 +27,28 @@ const Post = new Schema({
     featured:{
       type: String,
     },
-    likes:[Like]
+    likes:[
+
+      // userIDs: {
+      {  type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+      }
+    ],
+    comments:[
+      {
+          comment:{
+            type:String
+          },
+          author: {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'User'  
+          },
+          time:{
+            type:String
+          }
+
+      }
+    ]
 });
 
 Post.plugin(passportLocalMongoose);
