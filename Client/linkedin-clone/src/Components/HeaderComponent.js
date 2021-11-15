@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { useHistory } from "react-router-dom";
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,6 +18,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Avatar from '@mui/material/Avatar';
 import {HiHome} from 'react-icons/hi';
+import {FiLogOut} from 'react-icons/fi'
 import {Button} from '@material-ui/core';
 import {MdNotifications} from 'react-icons/md';
 import {CgProfile} from 'react-icons/cg';
@@ -74,9 +76,19 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const history = useHistory();
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const openProfile=()=>{
+    history.push('/profile');
+  }
+
+  const handlehome=()=>{
+    history.push('/home');
+  }
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -91,12 +103,18 @@ export default function PrimarySearchAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  
+
   const [profile,setProfile]=React.useState(null);
   const token=localStorage.getItem('token');
   const profileAPI = axios.create({
       baseURL: 'http://localhost:3001/users/',
       headers: {'Authorization': `Bearer ${token}`}
   });
+
+  const handleLogout=(e)=>{
+
+  }
 
   useEffect(() => {
     profileAPI.get('/profile')
@@ -111,20 +129,59 @@ export default function PrimarySearchAppBar(props) {
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       open={isMenuOpen}
-      onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      onClose={handleMenuClose}
+      PaperProps={{
+        elevation: 0,
+        sx: {
+          overflow: 'visible',
+          filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+          mt: 1.5,
+          '& .MuiAvatar-root': {
+            width: 32,
+            height: 32,
+            ml: -0.5,
+            mr: 1,
+          },
+          '&:before': {
+            content: '""',
+            display: 'block',
+            position: 'absolute',
+            top: 0,
+            right: 14,
+            width: 10,
+            height: 10,
+            bgcolor: 'background.paper',
+            transform: 'translateY(-50%) rotate(45deg)',
+            zIndex: 0,
+          },
+        },
+      }}
+      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    >
+      <MenuItem   onClick={openProfile}>
+        <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+            style={{margin:"10px 0px 10px 15px",padding:"0px"}}>   
+            <Avatar alt="Profile" src={profile==null?user:profile.profile_image} style={{width:"40px",height:"40px"}}/>
+          </IconButton>
+          <div style={{paddingRight:"10px"}}>{profile==null?null:profile.firstname+" "+profile.lastname}</div>
+      </MenuItem><br/>
+      <MenuItem style={{width: "-webkit-fill-available","justify-content": "flex-start"}}  onClick={(e)=>handleLogout(e)}>
+        <IconButton
+            size="large"
+            aria-label="show 17 new notifications"
+            color="inherit"
+            style={{margin:"10px 20px 10px 15px",padding:"0px"}}>   
+            <FiLogOut />
+          </IconButton>
+          <div style={{paddingRight:"10px"}}>Logout</div>
+      </MenuItem><br/>
     </Menu>
   );
 
@@ -217,7 +274,7 @@ export default function PrimarySearchAppBar(props) {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Button><HiHome style={{color:"black",fontSize: "25px"}}/></Button>
+            <Button onClick={handlehome}><HiHome style={{color:"black",fontSize: "25px"}}/></Button>
             <Button><Badge badgeContent={4} color="error"><MdNotifications style={{color:"black",fontSize: "25px"}}/></Badge></Button>
             <Button 
               size="large"
